@@ -168,7 +168,7 @@
 
                     <!-- Form -->
                     {% if error %}
-                        <p>{{ error }}</p>
+                        <p style="color:red">{{ error }}</p>
                     {% endif %}
                     <form method="POST" action="{% url 'signup' %}">
                         {% csrf_token %}

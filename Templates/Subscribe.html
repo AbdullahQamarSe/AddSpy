@@ -552,15 +552,15 @@
             </header>
             
 
-            <div class="container-fluid" id="theme-container" style="--bg-color: #fff; --text-color: #333;">
+            <div class="container-fluid" id="theme-container">
                 <main style="display: flex; justify-content: center;">
-                    <div class="container" style="background-color: var(--bg-color); color: var(--text-color); border-radius: 10px; padding: 20px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+                    <div class="container">
                         {% if request.user.is_subscribe %}
-                        <h1 style="text-align: center;">Subscribe to Our Service</h1>
-                        <h2 style="text-align: center;">$9.98 For Two Months</h2>
+                        
                         <button id="cancel-subscription" style="display: block; margin: 0 auto;">Cancel Subscription</button>
                         {% else %}
                         <form id="subscription-form">
+                            <h1 style="text-align: center;">Enter Card Details To Pay For Subscription</h1>
                             <label for="card-element" style="display: block; margin-bottom: 10px;">Enter your credit or debit card information:</label>
                             <div id="card-element" style="background-color: var(--bg-color); border: 1px solid var(--text-color); border-radius: 5px; padding: 10px;"></div>
                             <div id="card-errors" role="alert" class="error" style="color: #dc3545; margin-top: 10px;"></div>
@@ -634,7 +634,7 @@
                     var csrftoken = getCookie('csrftoken');
     
                     // Send request to backend to cancel subscription
-                    fetch('http://127.0.0.1:8000/cancel-subscription/', {
+                    fetch('http://54.169.133.221/cancel-subscription/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -711,7 +711,7 @@
                     hideLoader(); // Hide loader on error
                 } else {
                     var csrfToken = getCookie('csrftoken');
-                    fetch('http://127.0.0.1:8000/subscribe/', {
+                    fetch('http://54.169.133.221/subscribe/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

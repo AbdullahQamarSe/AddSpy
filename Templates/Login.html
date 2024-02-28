@@ -168,7 +168,7 @@
                     </p>
 
                     {% if error %}
-                        <p>{{ error }}</p>
+                        <p  style="color:red">{{ error }}</p>
                     {% endif %}
                     <form method="POST">
                         {% csrf_token %}
@@ -202,7 +202,7 @@
                                         <div class="col-auto">
                                             
                                             <!-- Help text -->
-                                            <a href="./reset-password-cover.html" class="form-text small text-muted link-primary">Forgot password</a>
+                                            
                                         </div>
                                     </div> <!-- / .row -->
     

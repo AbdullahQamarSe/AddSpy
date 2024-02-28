@@ -26,10 +26,15 @@ SECRET_KEY = 'django-insecure-=ou2b8rurwr&nqn@f#c$*#akd0!6pn)^@s_mconj%zp43_7^x=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
+
+CORS_ALLOWED_ORIGINS = [
+    'http://54.169.133.221',
+]
+CSRF_TRUSTED_ORIGINS = ['http://localhost','http://54.169.133.221']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,12 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'AdPages'
 ]
 
 AUTH_USER_MODEL = 'AdPages.userauthenticate'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -91,6 +91,21 @@
             }
         </script>
         <style>
+            .loader {
+                border: 8px solid #f3f3f3; /* Light grey */
+                border-top: 8px solid #3498db; /* Blue */
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                animation: spin 2s linear infinite;
+                margin: 20px auto;
+                display: none; /* Initially hide the loader */
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
             @media (min-width: 1000px) {
                 .two_card {
                     display: flex; 
@@ -845,6 +860,7 @@
                         </form>
                         </div>
                     </div>
+                    <div id="loader" class="loader"></div>
                     <div class="justify-content:center; display:flex;">
                         {% if first_link %}
                             <h1><a href="{{ first_link }}" ><center>Go To Add Library</center></a></h1>
@@ -853,6 +869,7 @@
                     <div class="container two_card">
                         {% if ad_data %}
                             {% for ad in ad_data %}
+                            {% if ad.media_url1 or ad.media_url %}
                                 <div class="card border-0 flex-fill w-100 two_divs">
                                     <div class="card-body">
                                         <div class="row">
@@ -920,6 +937,7 @@
                                         <div class="progress-bar" role="progressbar" style="width: {{ ad.score }}%;" aria-valuenow="{{ ad.score }}" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
+                            {% endif %}
                             {% endfor %}
                         {% elif request.method == 'POST' %}
                             <p>No ads found based on the search criteria.</p>
@@ -952,7 +970,21 @@
                 Customize
             </a>
             
-        </main> <!-- / main -->
+        </main>
+        <script>
+            $(document).ready(function() {
+            $('form').on('submit', function() {
+                // Show the loader when the form is submitted
+                $('#loader').show();
+            });
+        
+            // Add this if you want to hide the loader when the page has fully loaded
+            $(window).on('load', function() {
+                $('#loader').hide();
+            });
+        });
+        
+        </script>
         <script>
             // Add JavaScript to dynamically adjust the width of the progress bar
             document.addEventListener("DOMContentLoaded", function() {
