@@ -78,15 +78,15 @@ def facebook_instagram(request):
     try:
         stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
         subscription = stripe.Subscription.retrieve(usersubscribe)
-        active_status = subscription['plan']['active']
-        print(active_status)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
     except:
-        active_status = False
-    print(active_status)
+        active_status2 = False
+    
     
     if request.method == 'POST':
         print(request.user.is_subscribe)
-        if user.counter > 0 or active_status:
+        if user.counter > 0 or active_status2:
             user.counter -= 1
             user.save()
         else:
@@ -95,9 +95,9 @@ def facebook_instagram(request):
         search = request.POST.get('search')
         media_type = request.POST.get('media_type')
         country = request.POST.get('country')
-        active_status = request.POST.get('active_status')
+        active_status1 = request.POST.get('active_status')
         ad_type = request.POST.get('ad_type')
-        print(search,media_type,country,active_status,ad_type)
+        print(search,media_type,country,active_status1,ad_type)
         glass = search
 
         if search == "":
@@ -117,7 +117,7 @@ def facebook_instagram(request):
         wait = WebDriverWait(driver, 10)  # Adjust the timeout as needed
         base_url = "https://www.facebook.com/ads/library/?active_status={}&ad_type={}&country={}&q={}&publisher_platforms[0]={}&sort_data[direction]=desc&sort_data[mode]=relevancy_monthly_grouped&search_type=keyword_unordered&media_type={}&content_languages[0]=en"
 
-        final_url = base_url.format(active_status, ad_type, country, search, publisher_platforms, media_type)
+        final_url = base_url.format(active_status1, ad_type, country, search, publisher_platforms, media_type)
 
         driver.get(final_url)
 
@@ -278,8 +278,9 @@ def facebook_instagram(request):
             except Exception as e:
                 
                 print('\n', e)
+        print("active status",active_status2)    
 
-    return render(request, 'Facebook&Instagram.html', {'ad_data': data, 'first_link': first_link, 'active_status':active_status, 'user': request.user} )
+    return render(request, 'Facebook&Instagram.html', {'ad_data': data, 'first_link': first_link, 'active_status2':active_status2, 'user': request.user} )
 
 def main_section_elemnent(text):
     pattern = r"Library ID:\s*(\d+).*?(Active).*?Started running on\s*(\d{1,2} \w+ \d{4})"

@@ -205,7 +205,7 @@
             <div class="container-fluid">
                 
                 <!-- Brand -->
-                <a class="navbar-brand" href="./index.html">
+                 <a class="navbar-brand" href="{% url 'dashboard' %}">
                     <img src="{% static 'assets/images/logo-small.svg' %}" class="navbar-brand-img logo-light logo-small" alt="..." width="19" height="25">
                     <img src="{% static 'assets/images/logo.svg' %}" class="navbar-brand-img logo-light logo-large" alt="..." width="125" height="25">
                     <img src="{% static 'assets/images/logo-dark-small.svg' %}" class="navbar-brand-img logo-dark logo-small" alt="..." width="19" height="25">
@@ -274,14 +274,14 @@
                     <!-- End of Navigation -->
         
                     <!-- Info box -->
-                    {% if active_status == False %}
-                    <div class="help-box rounded-3 py-5 px-4 text-center mt-auto">
-                        <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">    
-                        <h6>Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
-                        
-                        <!-- Button -->
-                        <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a>
-                    </div>
+                    {% if active_status2 == False %}
+                        <div class="help-box rounded-3 py-5 px-4 text-center mt-auto">
+                            <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">    
+                            <h6>Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
+                            
+                            <!-- Button -->
+                            <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a>
+                        </div>
                     {% endif %}
                 </div>
                 <!-- End of Collapse -->
@@ -294,22 +294,7 @@
             <header class="container-fluid d-flex py-6 mb-4">
             
                 <!-- Search -->
-                <form class="d-none d-md-inline-block me-auto">
-                    <div class="input-group input-group-merge">
-            
-                        <!-- Input -->
-                        <input type="text" class="form-control bg-light-green border-light-green w-250px" placeholder="Search..." aria-label="Search for any term">
-                        
-                        <!-- Button -->
-                        <span class="input-group-text bg-light-green border-light-green p-0">
-            
-                            <!-- Button -->
-                            <button class="btn btn-primary rounded-2 w-30px h-30px p-0 mx-1" type="button" aria-label="Search button">
-                                <svg viewBox="0 0 24 24" height="16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M0.750 9.812 A9.063 9.063 0 1 0 18.876 9.812 A9.063 9.063 0 1 0 0.750 9.812 Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(-3.056 4.62) rotate(-23.025)"  /><path d="M16.221 16.22L23.25 23.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
-                            </button>
-                        </span>
-                      </div>
-                </form>
+                 
             
                 <!-- Top buttons -->
                 <div class="d-flex align-items-center ms-auto me-n1 me-lg-n2">
@@ -537,14 +522,14 @@
                         <div class="card-body">
                         <form method="post" action="{% url 'facebook_instagram' %}" >
                             {% csrf_token %}
-                            <h2 class="text-center mb-0">Search</h2>
+                            <h1 class="text-secondary text-center">Search</h1>
                             <p class="text-secondary text-center">Facebook And Instagram</p>
 
                             <div class="mb-3">
                                 <div class="row">
                                     <div class="col-md">
                                         <label for="Search" class="form-label">Search</label>
-                                        <input type="text" class="form-control" id="search" name="search" placeholder="Search Add Here" required>
+                                        <input type="text" class="form-control" id="search" name="search" placeholder="Search Add Here" >
                                     </div>
 
                                     <div class="col-md">
@@ -828,7 +813,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-3" style="margin-top: 10px;">
                                     <div class="row">
                                 
                                         <div class="col-md">
@@ -870,6 +855,7 @@
                         {% if ad_data %}
                             {% for ad in ad_data %}
                             {% if ad.media_url1 or ad.media_url %}
+                            
                                 <div class="card border-0 flex-fill w-100 two_divs">
                                     <div class="card-body">
                                         <div class="row">
