@@ -106,6 +106,12 @@
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
             }
+
+            @media (max-width:1000px) {
+                .recyclebin{
+                    display: none;
+                }
+            }
             @media (min-width: 1000px) {
                 .two_card {
                     display: flex; 
@@ -275,14 +281,16 @@
         
                     <!-- Info box -->
                     {% if active_status2 == False %}
-                        <div class="help-box rounded-3 py-5 px-4 text-center mt-auto">
-                            <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">    
-                            <h6>Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
-                            
-                            <!-- Button -->
-                            <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a>
-                        </div>
+                    <div class="container recyclebin" style="background-color: rgba(0, 186, 199, .2); border-radius: 16px;">
+                        <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">
+                        <h6 style="text-align: center;">Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
+                        <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a>
+                    </div>
                     {% endif %}
+
+                    
+
+
                 </div>
                 <!-- End of Collapse -->
             </div>
