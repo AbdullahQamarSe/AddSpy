@@ -622,7 +622,7 @@
                     var csrftoken = getCookie('csrftoken');
     
                     // Send request to backend to cancel subscription
-                    fetch('http://127.0.0.1:8000/cancel-subscription/', {
+                    fetch('http://54.169.133.221/cancel-subscription/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -699,7 +699,7 @@
                     hideLoader(); // Hide loader on error
                 } else {
                     var csrfToken = getCookie('csrftoken');
-                    fetch('http://127.0.0.1:8000/subscribe/', {
+                    fetch('http://54.169.133.221/subscribe/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
