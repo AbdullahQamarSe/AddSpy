@@ -6,7 +6,8 @@
         <meta content="Webinning" name="author">
 
         {% load static %}
-        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" id="stylesheetLTR">
+        
+        <link rel="stylesheet" href="{% static 'assets/css/facebookstyle.css' %}" id="stylesheetLTR">
         <link rel="stylesheet" href="{% static 'assets/css/theme.bundle.css' %}" id="stylesheetLTR">
         <link rel="stylesheet" href="{% static 'assets/css/theme.rtl.bundle.css' %}" id="stylesheetRTL">
         
@@ -90,14 +91,35 @@
             }
         </script>
         <style>
-            @media (min-width: 701px) {
-                .responsive-div {
-                width: 40%;
+            .loader {
+                border: 8px solid #f3f3f3; /* Light grey */
+                border-top: 8px solid #3498db; /* Blue */
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                animation: spin 2s linear infinite;
+                margin: 20px auto;
+                display: none; /* Initially hide the loader */
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            @media (max-width:1000px) {
+                .recyclebin{
+                    display: none;
                 }
             }
-            @media (max-width: 700px) {
-                .responsive-div {
-                width: 80%;
+            @media (min-width: 1000px) {
+                .two_card {
+                    display: flex; 
+                    flex-wrap: wrap;
+                }
+                .two_divs{
+                    width: 35% !important ; 
+                    margin-left: 10px;
                 }
             }
         </style>
@@ -132,7 +154,18 @@
                     html.removeAttribute('dir');
                 }
             </script>
-        
+            <style>
+                /* Add CSS for the progress bar */
+                .progress {
+                    height: 20px;
+                    margin-bottom: 20px;
+                }
+
+                .progress-bar {
+                    background-color: #007bff;
+                    transition: width 0.6s ease;
+                }
+            </style>
         <!-- Page Title -->
         <title>CRM Dashboard | Dashly</title>
     </head>
@@ -442,7 +475,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-6">
                                 <div class="d-flex flex-column">
                                     <label class="h4 mb-0 d-flex align-items-center" for="isFluid">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><path d="M4.79,17.21a1,1,0,0,0,.71.29.84.84,0,0,0,.38-.08,1,1,0,0,0,.62-.92v-3a.25.25,0,0,1,.25-.25h10.5a.25.25,0,0,1,.25.25v3a1,1,0,0,0,.62.92.84.84,0,0,0,.38.08,1,1,0,0,0,.71-.29l4.5-4.5a1,1,0,0,0,0-1.42l-4.5-4.5a1,1,0,0,0-1.09-.21,1,1,0,0,0-.62.92v3a.25.25,0,0,1-.25.25H6.75a.25.25,0,0,1-.25-.25v-3a1,1,0,0,0-.62-.92,1,1,0,0,0-1.09.21l-4.5,4.5a1,1,0,0,0,0,1.42Z" style="fill: currentColor"/></svg>                      
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="25" width="25"><path d="M4.79,17.21a1,1,0,0,0,.71.29.84.84,0,0,0,.38-.08,1,1,0,0,0,.62-.92v-3a.25.25,0,0,1,.25-.25h10.5a.25.25,0,0,1,.25.25v3a1,1,0,0,0,.62.92.84.84,0,0,0,.38.08,1,1,0,0,0,.71-.29l4.5-4.5a1,1,0,0,0,0-1.42l-4.5-4.5a1,1,0,0,0-1.09-.21,1,1,0,0,0-.62.92v3a.25.25,0,0,1-.25.25H6.75a.25.25,0,0,1-.25-.25v-3a1,1,0,0,0-.62-.92,1,1,0,0,0-1.09.21l-4.5,4.5a1,1,0,0,0,0,1.42Z" style="fill: currentColor"/></svg>                      
                                         Fluid layout
                                     </label>
                                     <p class="text-secondary fs-5 mb-0">Toggle container layout system</p>
@@ -457,7 +490,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-5">
                                 <div class="d-flex flex-column">
                                     <label class="h4 mb-0 d-flex align-items-center" for="isRTL">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><g><path d="M4.15,15.85A.47.47,0,0,0,4.5,16a.43.43,0,0,0,.19,0A.5.5,0,0,0,5,15.5V13a.25.25,0,0,1,.25-.25H11.5a1.25,1.25,0,0,0,0-2.5H5.25A.25.25,0,0,1,5,10V7.5A.49.49,0,0,0,4.69,7a.47.47,0,0,0-.54.11l-4,4a.48.48,0,0,0,0,.7Z" style="fill: currentColor"/><rect x="15.5" width="8.5" height="24" rx="2" style="fill: currentColor"/></g></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="25" width="25"><g><path d="M4.15,15.85A.47.47,0,0,0,4.5,16a.43.43,0,0,0,.19,0A.5.5,0,0,0,5,15.5V13a.25.25,0,0,1,.25-.25H11.5a1.25,1.25,0,0,0,0-2.5H5.25A.25.25,0,0,1,5,10V7.5A.49.49,0,0,0,4.69,7a.47.47,0,0,0-.54.11l-4,4a.48.48,0,0,0,0,.7Z" style="fill: currentColor"/><rect x="15.5" width="8.5" height="24" rx="2" style="fill: currentColor"/></g></svg>
                                         RTL Mode
                                     </label>
                                     <p class="text-secondary fs-5 mb-0">Switch your language direction</p>
@@ -474,7 +507,7 @@
                                 </div>
                                 <div class="col-lg mb-3">
                                     <button class="btn btn-light w-100 d-flex align-items-center justify-content-center" id="resetThemeConfig">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><path d="M12.57,1.26A10.81,10.81,0,0,0,2.82,8.4a.25.25,0,0,1-.27.16L.86,8.31a.52.52,0,0,0-.49.21.51.51,0,0,0,0,.53L3,13.75a.51.51,0,0,0,.43.25.52.52,0,0,0,.36-.14l3.77-3.75a.5.5,0,0,0-.28-.85L5.59,9a.26.26,0,0,1-.18-.13.24.24,0,0,1,0-.22,8.26,8.26,0,1,1,7.87,11.59,1.25,1.25,0,1,0,.09,2.5,10.75,10.75,0,0,0-.79-21.49Z" style="fill: currentColor"/></svg>                      
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="25" width="25"><path d="M12.57,1.26A10.81,10.81,0,0,0,2.82,8.4a.25.25,0,0,1-.27.16L.86,8.31a.52.52,0,0,0-.49.21.51.51,0,0,0,0,.53L3,13.75a.51.51,0,0,0,.43.25.52.52,0,0,0,.36-.14l3.77-3.75a.5.5,0,0,0-.28-.85L5.59,9a.26.26,0,0,1-.18-.13.24.24,0,0,1,0-.22,8.26,8.26,0,1,1,7.87,11.59,1.25,1.25,0,1,0,.09,2.5,10.75,10.75,0,0,0-.79-21.49Z" style="fill: currentColor"/></svg>                      
                                         Reset
                                     </button>
                                 </div>
@@ -523,51 +556,47 @@
                     </div>
                 </div>
             </header>
-            
 
-            <div class="container-fluid">
-                <main style="display: flex; justify-content: center;">
-                    <div class="card border-0 py-6 px-4 mb-6 mb-xl-3 text-bg-primary responsive-div">
-                        <div class="card-body">
-                            <h2 class="card-title h4 text-uppercase opacity-80 text-center mb-3">Advanced</h2>
-                            <h3 class="card-text display-3 text-center">
-                                $9.98 <span class="fs-3 fw-normal opacity-70">/ 2 mo</span>
-                            </h3>
 
-                            <!-- Divider -->
-                            <hr class="text-white">
+            <main>   
+                <div class="container-fluid" style="display: flex; justify-content: center;">
+                    <div class="card border-0 py-6 px-md-6" style="width: 80%;">
+                        <h2 class="text-secondary text-center" >Change Name</h2>
+                        <form method="post" action="{% url 'change_name' %}">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" id="search" name="name" value="{{ user.name }}" >
+                            <br>
+                            <button type="submit" class="btn btn-primary">Change Name</button>
+                            <br>
+                            <br>
+                            {% if change_name_error %}
+                                <p>{{ change_name_error }}</p>
+                            {% endif %}
+                        </form>
 
-                            <ul class="list-unstyled mb-7">
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    4.99 / month
-                                </li>
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    Facebook and Instagram Ads
-                                </li>
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    Google Ads
-                                </li>
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    Tiktok Ads
-                                </li>
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    Youtube Ads
-                                </li>
-                            </ul>
+                        <br>
+                        
+                        <h2 class="text-secondary text-center" >Change Password</h2>
+                        <form method="post" action="{% url 'change_password' %}">
+                            {% csrf_token %}
+                            <input type="password" class="form-control" id="search" name="old_password"  placeholder="Old Password">
+                            <br>
+                            <input type="password" class="form-control" id="search" name="new_password1" placeholder="New Password">
+                            <br>
+                            <input type="password" class="form-control" id="search" name="new_password2" placeholder="Confirm New Password">
+                            <br>
+                            <button type="submit" class="btn btn-primary">Change Password</button>
 
-                            <!-- Button -->
-                            <a class="btn btn-lg btn-white link-primary w-100" href="{% url 'subscribe' %}">Subscribe</a>
-                        </div>
+                            {% if change_password_error %}
+                                <p>{{ change_password_error }}</p>
+                            {% endif %}
+
+                        </form>
                     </div>
-                </main>
-            </div>
+                </div>
+            </main>
 
-
+            
             <!-- Footer-->
             <!-- Footer -->
             <footer class="mt-auto">
@@ -590,56 +619,118 @@
                 Customize
             </a>
             
-        </main> <!-- / main -->
-
-        <!-- JAVASCRIPT-->
-        <!-- Theme JS -->
-        <script src="{% static 'assets/js/theme.bundle.js' %}"></script>
+        </main>
         <script>
-            function initMap() {
-            const map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 0, lng: 0},
-                zoom: 3
+            $(document).ready(function() {
+            $('form').on('submit', function() {
+                // Show the loader when the form is submitted
+                $('#loader').show();
             });
         
-            const geocoder = new google.maps.Geocoder();
-            const countryNameElement = document.getElementById('country-name');
-            const visitorDataElements = document.querySelectorAll('.visit-data');
+            // Add this if you want to hide the loader when the page has fully loaded
+            $(window).on('load', function() {
+                $('#loader').hide();
+            });
+        });
         
-            map.addListener('click', function(event) {
-                geocoder.geocode({'location': event.latLng}, function(results, status) {
-                    if (status === 'OK') {
-                        if (results[0]) {
-                            let countryName = '';
-                            for (let i = 0; i < results[0].address_components.length; i++) {
-                                if (results[0].address_components[i].types[0] === 'country') {
-                                    countryName = results[0].address_components[i].long_name;
-                                    break;
-                                }
-                            }
-                            if (countryName !== '') {
-                                countryNameElement.textContent = `You clicked on: ${countryName}`;
-                                visitorDataElements.forEach(function(element) {
-                                    if (element.getAttribute('data-country') === countryName) {
-                                        element.style.display = 'block';
-                                    } else {
-                                        element.style.display = 'none';
-                                    }
-                                });
-                            } else {
-                                countryNameElement.textContent = 'Country name not found';
-                            }
-                        } else {
-                            countryNameElement.textContent = 'No results found';
-                        }
-                    } else {
-                        countryNameElement.textContent = `Geocoder failed due to: ${status}`;
-                    }
+        </script>
+        <script>
+            // Add JavaScript to dynamically adjust the width of the progress bar
+            document.addEventListener("DOMContentLoaded", function() {
+                const progressBars = document.querySelectorAll('.progress-bar');
+                progressBars.forEach(progressBar => {
+                    const width = progressBar.getAttribute('aria-valuenow');
+                    progressBar.style.width = `${width}%`;
                 });
             });
-        }
         </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyYGIS7vDUnmhE_22ktp18TrLD2sgUwVg&callback=initMap"></script>
+        <script>
+            function toggleFilters() {
+                var additionalFields = document.getElementById("additional-fields");
+                if (additionalFields.style.display === "none") {
+                    additionalFields.style.display = "block";
+                } else {
+                    additionalFields.style.display = "none";
+                }
+            }
+        </script>
+        <script src="{% static 'assets/js/theme.bundle.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+            $('form').on('submit', function() {
+                // Show the loader when the form is submitted
+                $('#loader').show();
+            });
+
+            // Add this if you want to hide the loader when the page has fully loaded
+            $(window).on('load', function() {
+                $('#loader').hide();
+            });
+        });
+
+        </script>
+        <script>
+                $(document).ready(function() {
+                    // Function to get user's IP address using a free API
+                    $.getJSON('https://api.ipify.org?format=json', function(data) {
+                        var ip_address = data.ip;
+                        // Function to get user's country and coordinates using a free API
+                        $.getJSON('https://ipapi.co/' + ip_address + '/json/', function(data) {
+                            var country_name = data.country_name;
+                            var coordinates = data.latitude + ', ' + data.longitude;
+                            // Log data before sending to backend
+                            console.log('IP Address:', ip_address);
+                            console.log('Country Name:', country_name);
+                            console.log('Coordinates:', coordinates);
+                            // Send data to backend using AJAX
+                            $.ajax({
+                                type: 'POST',
+                                url: '{% url "save_visitor" %}',
+                                data: {
+                                    'ip_address': ip_address,
+                                    'country_name': country_name,
+                                    'coordinates': coordinates,
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                },
+                                success: function(response) {
+                                    console.log('Data sent successfully');
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error);
+                                }
+                            });
+                        });
+                    });
+                });
+            </script>
+        <script>
+            $(document).ready(function(){
+            $(".progress").each(function(){
+            
+            var $bar = $(this).find(".bar");
+            var $val = $(this).find("span");
+            var perc = parseInt( $val.text(), 10);
+
+            $({p:0}).animate({p:perc}, {
+                duration: 3000,
+                easing: "swing",
+                step: function(p) {
+                $bar.css({
+                    transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
+                    // 45 is to add the needed rotation to have the green borders at the bottom
+                });
+                $val.text(p|0);
+                }
+            });
+            }); 
+            });
+        </script>
+        <script>
+            function toggleFilters() {
+                var additionalFields = document.getElementById("additional-fields");
+                additionalFields.classList.toggle("show");
+            }
         </script>
     </body>
 </html>

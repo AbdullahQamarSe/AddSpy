@@ -15,4 +15,15 @@ urlpatterns = [
     path('subscribe/', subscription_form, name='subscribe'),
     path('cancel-subscription/', cancel_subscription, name='cancel_subscription'),
     path('success', success, name='success'),
+    path('success1', success1, name='success1'),
+
+    path('updatecard/', update_card, name='update_card'),
+    path('Profile/', Profile, name='profile'),
+    path('change-name/', change_name, name='change_name'),
+    path('change-password/', change_password, name='change_password'),
+
+    path('get_categories/', get_categories, name='get_categories'),
+    path('admin_category_dropdown/', admin_category_dropdown, name='admin_category_dropdown'),
+
+    path('Location/', Location, name='Location'),
 ]

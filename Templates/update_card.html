@@ -100,7 +100,55 @@
                 width: 80%;
                 }
             }
+
+            input[type="submit"], button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover, button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        #cancel-subscription {
+            background-color: #f44336;
+        }
+
+        #cancel-subscription:hover {
+            background-color: #d32f2f;
+        }
+        .loading-circle {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto; /* Use margins for centering */
+            display: none;
+        }
+
+
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         </style>
+        <main>
         <!-- Favicon -->
         <link rel="icon" href="./assets/favicon/favicon.ico" sizes="any">
         
@@ -525,48 +573,189 @@
             </header>
             
 
-            <div class="container-fluid">
+            <div class="container-fluid" id="theme-container">
                 <main style="display: flex; justify-content: center;">
-                    <div class="card border-0 py-6 px-4 mb-6 mb-xl-3 text-bg-primary responsive-div">
-                        <div class="card-body">
-                            <h2 class="card-title h4 text-uppercase opacity-80 text-center mb-3">Advanced</h2>
-                            <h3 class="card-text display-3 text-center">
-                                $9.98 <span class="fs-3 fw-normal opacity-70">/ 2 mo</span>
-                            </h3>
-
-                            <!-- Divider -->
-                            <hr class="text-white">
-
-                            <ul class="list-unstyled mb-7">
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    4.99 / month
-                                </li>
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    Facebook and Instagram Ads
-                                </li>
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    Google Ads
-                                </li>
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    Tiktok Ads
-                                </li>
-                                <li class="mb-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
-                                    Youtube Ads
-                                </li>
-                            </ul>
-
-                            <!-- Button -->
-                            <a class="btn btn-lg btn-white link-primary w-100" href="{% url 'subscribe' %}">Subscribe</a>
+                    <div class="card border-0 scroll-mt-3" style="padding: 30px;" id="paymentMethodsSection">
+                        <div style="display: flex; justify-content: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="250" height="200" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+                                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                            </svg>
                         </div>
-                    </div>
+                        <form id="update-card-form" action="POST">
+                            <h1 style="text-align: center;">Update Card Details</h1>
+                            <label for="card-owner" style="display: block; margin-bottom: 10px;">Card Owner Name:</label>
+                            <input type="text" id="card-owner" name="card-owner" required style="width: 100%; height: 30px;border-radius: 5px; border: none; padding: 20px;" placeholder="Card Holder Name">
+                            <label for="card-element" style="display: block; margin-bottom: 10px;">Enter your new credit or debit card information:</label>
+                            <div id="card-element" style="background-color: var(--bg-color); border: 1px solid var(--text-color); border-radius: 5px; padding: 10px;"></div>
+                            <div id="card-errors" role="alert" class="error" style="color: #dc3545; margin-top: 10px;"></div>
+                            <input type="submit" value="Update Card" style="display: block; margin-top: 10px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
+                        </form>                        
+                    </div> 
                 </main>
+                <div id="loading-circle" class="loading-circle" style="display: none; margin-top: 20px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite;"></div>
             </div>
+            <script>
+                // Function to toggle between light and dark themes
+                function toggleTheme() {
+                    const container = document.getElementById('theme-container');
+                    const currentBgColor = getComputedStyle(container).getPropertyValue('--bg-color');
+                    const currentTextColor = getComputedStyle(container).getPropertyValue('--text-color');
+            
+                    if (currentBgColor === '#fff' && currentTextColor === '#333') {
+                        container.style.setProperty('--bg-color', '#333');
+                        container.style.setProperty('--text-color', '#fff');
+                    } else {
+                        container.style.setProperty('--bg-color', '#fff');
+                        container.style.setProperty('--text-color', '#333');
+                    }
+                }
+            
+                // Example of how to trigger theme toggle, you can bind this to a button or any other event
+                toggleTheme();
+            </script>
+            
+            
 
+            
+            <script src="https://js.stripe.com/v3/"></script>
+            <script src="script.js" defer></script>
+            <script>
+                function showLoader() {
+                    var loader = document.getElementById('loading-circle');
+                    loader.style.display = 'block';
+                }
+    
+                // Function to hide loader
+                function hideLoader() {
+                    var loader = document.getElementById('loading-circle');
+                    loader.style.display = 'none';
+                }
+    
+    
+                // Function to get CSRF token from cookies
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = cookies[i].trim();
+                            // Search for the CSRF cookie
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+            
+    
+                // Handle subscription cancellation.
+                
+    
+            </script>
+            
+            
+            <script>
+                // Create a Stripe client.
+            var stripe = Stripe('pk_test_51M1RZSEQYK3RMvApPODYJWgReEEW03urdsQBVZDi6pEFYihQGnZQkl5xHcZheVOO4NBIg2vYUEiuqN5L5jlSJFBQ00yD7gtSUb');
+            
+            // Create an instance of Elements.
+            var elements = stripe.elements();
+            
+            // Custom styling can be passed to options when creating an Element.
+            var style = {
+              base: {
+                // Add your base input styles here. For example:
+                fontSize: '16px',
+                color: '#32325d',
+              },
+            };
+            
+            // Create an instance of the card Element.
+            var card = elements.create('card', {style: style});
+            
+            // Add an instance of the card Element into the `card-element` div.
+            card.mount('#card-element');
+            
+            // Get CSRF token from the cookie
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            var updateCardForm = document.getElementById('update-card-form');
+            updateCardForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                showLoader(); // Show loader when form is submitted
+
+                var cardOwner = document.getElementById('card-owner').value;
+
+                stripe.createToken(card, { name: cardOwner }).then(function(result) {
+                    if (result.error) {
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                        hideLoader(); // Hide loader on error
+                    } else {
+                        var csrfToken = getCookie('csrftoken');
+                        var tokenId = result.token.id;
+                        fetch('http://127.0.0.1:8000/updatecard/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrfToken
+                            },
+                            body: JSON.stringify({ token: tokenId, owner: cardOwner }),
+                        })
+                        .then(response => {
+                            console.log(response)
+                            hideLoader(); // Hide loader when request completes
+                            if (response.status == 200) {
+                                console.log('Card updated successfully');
+                                window.location.href = '/success1'; // Redirect to success page
+                            } else {
+                                console.error('Failed to update card');
+                            }
+                        })
+                        .catch(error => {
+                            hideLoader(); // Hide loader on error
+                            console.error('Error:', error);
+                        });
+                    }
+                });
+            });
+
+
+            
+            
+            
+            function stripeTokenHandler(token) {
+              
+              var form = document.getElementById('subscription-form');
+              var hiddenInput = document.createElement('input');
+              hiddenInput.setAttribute('type', 'hidden');
+              hiddenInput.setAttribute('name', 'stripeToken');
+              hiddenInput.setAttribute('value', token.id);
+              form.appendChild(hiddenInput);
+            
+              // Submit the form
+              form.submit();
+            }
+            
+            
+            </script>
 
             <!-- Footer-->
             <!-- Footer -->

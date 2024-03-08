@@ -1,0 +1,36 @@
+<select name="admin-category-dropdown">
+    <option value="">Select Admin Category</option>
+    {% for admin_category in admin_categories %}
+    <option value="{{ admin_category.country_name }}">{{ admin_category.country_name }}</option>
+    {% endfor %}
+</select>
+
+<select name="category-dropdown">
+    <option value="">Select Category</option>
+</select>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('select[name="admin-category-dropdown"]').change(function() {
+        var adminCategoryName = $(this).val();
+        if(adminCategoryName) {
+            $.ajax({
+                url: '/get_categories/',
+                data: {
+                    'admin_category_name': adminCategoryName
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('select[name="category-dropdown"]').empty();
+                    $.each(data, function(index, category) {
+                        $('select[name="category-dropdown"]').append('<option value="' + category.name + '">' + category.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('select[name="category-dropdown"]').empty();
+        }
+    });
+});
+</script>

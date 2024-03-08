@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.db.models import Count
-from .models import Visitor ,userauthenticate
+from .models import Visitor ,userauthenticate , Visitor1
 import stripe
 import json
+from django.utils.timezone import localtime
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from selenium import webdriver
@@ -12,14 +13,183 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 import time
 from bs4 import BeautifulSoup
 import re
+from django.utils import timezone
+from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 import stripe
 from django.conf import settings
 from django.http import HttpResponse
 from django.contrib.auth import logout
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from .models import Category, AdminCategory
+from datetime import datetime
 
-# Create your views here.
+from django.http import JsonResponse
+from .models import Category, AdminCategory
+import pycountry
+
+
+def Location(request):
+    user = request.user
+    usersubscribe = request.user.subscription_id
+    try:
+        stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
+        subscription = stripe.Subscription.retrieve(usersubscribe)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
+    except:
+        active_status2 = False
+
+    from django.utils.timezone import localtime, now
+    timezone.activate(settings.TIME_ZONE)
+    current_time = now()
+    time_only = current_time.strftime('%H:%M:%S')
+
+    print(time_only)
+    visitors = Visitor.objects.all()
+    for visitor in visitors:
+        visitor_time = localtime(visitor.timestamp)
+        time_string = visitor_time.strftime('%H:%M:%S')
+        time_diff = current_time - visitor_time
+        formatted_time_diff = str(time_diff).split('.')[0]  # Extracting hours, minutes, and seconds
+        print("Time difference:", formatted_time_diff)
+        hours_minutes_seconds = re.match(r'(\d+):(\d+):(\d+)', formatted_time_diff)
+
+        hours = int(hours_minutes_seconds.group(1))
+        minutes = int(hours_minutes_seconds.group(2))
+        seconds = int(hours_minutes_seconds.group(3))
+
+        total_minutes = hours * 60 + minutes
+        print("Visitor:", visitor, "Total minutes:", total_minutes)
+        print(type(total_minutes))
+        if total_minutes > 6:
+            visitor.delete()
+
+    visitors = Visitor.objects.all()
+
+
+
+        
+    # Initialize a defaultdict to store visitor data by country
+    visitor_data_by_country = defaultdict(lambda: {'visitor_count': 0, 'timestamps': [], 'cities': []})
+
+    # Aggregate visitor data by country
+    for visitor in visitors:
+        country_name = visitor.country_name
+        visitor_data_by_country[country_name]['visitor_count'] += 1
+        visitor_data_by_country[country_name]['timestamps'].append(visitor.timestamp)
+        visitor_data_by_country[country_name]['cities'].append(visitor.city)
+
+    # Calculate total visitors
+    total_visitors = sum(data['visitor_count'] for data in visitor_data_by_country.values())
+
+    # Calculate percentage for each country
+    for data in visitor_data_by_country.values():
+        data['percentage'] = (data['visitor_count'] / total_visitors) * 100
+
+    # Convert defaultdict to list of dictionaries
+    visitor_count_by_country = [{'country_name': country_name, 
+                                 'visitor_count': data['visitor_count'],
+                                 'timestamp': data['timestamps'],
+                                 **data} 
+                                for country_name, data in visitor_data_by_country.items()]
+    
+    timezone.activate(settings.TIME_ZONE)
+    current_time = timezone.now()
+    time_only = current_time.strftime('%H:%M:%S')
+    print(time_only)
+
+    # Extract time from timestamp
+    print("visting",visitor_count_by_country)
+
+    return JsonResponse(visitor_count_by_country, safe=False)
+        
+def get_categories(request):
+    admin_category_name = request.GET.get('admin_category_name')
+    if admin_category_name:
+        categories = Category.objects.filter(country=admin_category_name)
+        data = [{'name': category.name} for category in categories]
+        return JsonResponse(data, safe=False)
+    else:
+        return JsonResponse([], safe=False)
+
+
+def admin_category_dropdown(request):
+    admin_categories = AdminCategory.objects.all()
+    return render(request, 'admin_category_dropdown.html', {'admin_categories': admin_categories})
+
+
+
+@login_required(login_url='login')
+def Profile(request):
+    user = request.user
+    stripe.api_key = "sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao"
+    print(user.name)
+    print(user.subscription_id)
+
+    return render(request, 'profile&account.html',{'user': user})
+
+
+
+@login_required(login_url='login')
+def change_name(request):
+    change_name_error = None
+    if request.method == 'POST':
+        user = request.user
+        new_name = request.POST.get('name')
+        if new_name:
+            user.name = new_name
+            user.save()
+        else:
+            change_name_error = "Name cannot be empty."
+    return render(request, 'profile&account.html', {'change_name_error': change_name_error, 'user': user})
+
+@login_required(login_url='login')
+def change_password(request):
+
+    user = request.user
+    usersubscribe = request.user.subscription_id
+    try:
+        stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
+        subscription = stripe.Subscription.retrieve(usersubscribe)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
+    except:
+        active_status2 = False
+
+    change_password_error = None
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+        print(old_password,new_password1,new_password2)
+
+        if new_password1 != new_password2:
+            change_password_error = "New passwords do not match."
+
+        else:
+            
+            user = request.user
+            form = PasswordChangeForm(user, {'old_password': old_password, 'new_password1': new_password1, 'new_password2': new_password2})
+            print(form)
+
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)  # Important for maintaining session
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('profile')
+            else:
+                change_password_error = "This password is too short. It must contain at least 8 characters. This password is too common."
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'profile&account.html', {'active_status2':active_status2,'form': form, 'change_password_error': change_password_error})
+
+
+
+from collections import defaultdict
 
 @login_required(login_url='login')
 def Dashboard(request):
@@ -28,32 +198,65 @@ def Dashboard(request):
     try:
         stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
         subscription = stripe.Subscription.retrieve(usersubscribe)
-        active_status = subscription['plan']['active']
-        print(active_status)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
     except:
-        active_status = False
+        active_status2 = False
 
-    visitors = Visitor.objects.all()
-    visitor_count_by_country = Visitor.objects.values('country_name').annotate(visitor_count=Count('country_name'))
-    total_visitors = Visitor.objects.count()
+    # Get visitor data
+    visitors = Visitor1.objects.all()
 
-    for visitor_data in visitor_count_by_country:
-        visitor_data['percentage'] = (visitor_data['visitor_count'] / total_visitors) * 100
+    # Initialize a defaultdict to store visitor data by country
+    visitor_data_by_country = defaultdict(lambda: {'visitor_count': 0, 'timestamps': [], 'cities': []})
 
-    # Pass the visitor_count_by_country data to the template context
-    return render(request, 'dashboard.html', {'visitor_data': visitor_count_by_country,'active_status':active_status , 'user': request.user})
+    # Aggregate visitor data by country
+    for visitor in visitors:
+        country_name = visitor.country_name
+        visitor_data_by_country[country_name]['visitor_count'] += 1
+        visitor_data_by_country[country_name]['timestamps'].append(visitor.timestamp)
+        visitor_data_by_country[country_name]['cities'].append(visitor.city)
 
+    # Calculate total visitors
+    total_visitors = sum(data['visitor_count'] for data in visitor_data_by_country.values())
+
+    # Calculate percentage for each country
+    for data in visitor_data_by_country.values():
+        data['percentage'] = (data['visitor_count'] / total_visitors) * 100
+
+    # Convert defaultdict to list of dictionaries
+    visitor_count_by_country = [{'country_name': country_name, **data} for country_name, data in visitor_data_by_country.items()]
+
+    print(visitor_count_by_country)
+
+    return render(request, 'dashboard.html', {'visitor_data': visitor_count_by_country, 'active_status2': active_status2, 'user': request.user,})
+
+
+import pycountry
 
 def save_visitor(request):
     if request.method == 'POST':
         ip_address = request.POST.get('ip_address')
-        country_name = request.POST.get('country_name')
+        country_code = request.POST.get('country_name')  # Assuming country_code is received instead of country name
         coordinates = request.POST.get('coordinates')
-        visitor = Visitor.objects.create(ip_address=ip_address, country_name=country_name, coordinates=coordinates)
+        city = request.POST.get('city')
+
+        # Lookup country name from country code
+        country_name = None
+        try:
+            country_name = pycountry.countries.get(alpha_2=country_code).name
+        except AttributeError:
+            pass  # Handle the case where country code is invalid or not found
+
+        # Create and save visitor
+        visitor1 = Visitor1.objects.create(ip_address=ip_address, country_name=country_name, coordinates=coordinates, city=city)
+        visitor1.save()
+
+        visitor = Visitor.objects.create(ip_address=ip_address, country_name=country_name, coordinates=coordinates, city=city)
         visitor.save()
         return JsonResponse({'message': 'Visitor data saved successfully'})
     else:
         return JsonResponse({'error': 'Invalid request method'})
+
     
 def subscription_limit(request):
     user = request.user
@@ -61,15 +264,16 @@ def subscription_limit(request):
     try:
         stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
         subscription = stripe.Subscription.retrieve(usersubscribe)
-        active_status = subscription['plan']['active']
-        print(active_status)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
     except:
-        active_status = False
-    return render(request,"Subscription.html", {'active_status':active_status, 'user': request.user})
+        active_status2 = False
+    return render(request,"Subscription.html", {'active_status2':active_status2, 'user': request.user})
 
 
 @login_required(login_url='login')
 def facebook_instagram(request):
+
     data = []
     first_link=""
 
@@ -92,17 +296,44 @@ def facebook_instagram(request):
         else:
             return redirect(subscription_limit)
         
+        Optimized = request.POST.get('Optimized')
         search = request.POST.get('search')
         media_type = request.POST.get('media_type')
-        country = request.POST.get('country')
-        active_status1 = request.POST.get('active_status')
-        ad_type = request.POST.get('ad_type')
+        country = request.POST.get('admin-category-dropdown')
+        try:
+            country = pycountry.countries.lookup(country).alpha_2
+            print("Country Code:", country)
+        except LookupError:
+            print("Country not found")
+
+        active_status1 = "active"
+        categories = ['all', 'credit_ads', 'employment_ads', 'housing_ads', 'political_and_issue_ads']
+
+        # Get the ad_type from request.POST
+        ad_type = request.POST.get('category-dropdown')
+        if ad_type == "All ads":
+            ad_type = "all"
+
+        if ad_type == "Issues, elections or politics":
+            ad_type = "political_and_issue_ads"
+
+        if ad_type == "Properties":
+            ad_type = "housing_ads"
+
+        if ad_type == "Employment":
+            ad_type = 'employment_ads'
+
+        if ad_type == "Credit":
+            ad_type = 'credit_ads'
+
+        print("ad_type",ad_type)
+        print("working or not check",country,ad_type)
+
         print(search,media_type,country,active_status1,ad_type)
         glass = search
 
         if search == "":
-            search = ad_type
-            search = search.replace("_", " ")
+            search = "."
 
         print(search)
         secound_search = search.replace(" ", "")
@@ -172,6 +403,13 @@ def facebook_instagram(request):
         time.sleep(7)
 
         driver.execute_script("window.scrollBy(0, 500);")
+        time.sleep(2)
+        driver.execute_script("window.scrollBy(500, 1000);")
+        time.sleep(2)
+        driver.execute_script("window.scrollBy(1000, 1500);")
+        time.sleep(2)
+        driver.execute_script("window.scrollBy(1500, 2500);")
+        time.sleep(2)
         source = driver.page_source
         soup = BeautifulSoup(source, 'html.parser')
         page_name = soup.find_all("div", class_='_7jvw x2izyaf x1hq5gj4 x1d52u69')
@@ -273,14 +511,22 @@ def facebook_instagram(request):
                     ad_data["media_url"] = image['src']
                 elif video:
                     ad_data["media_url1"] = video['src']
+                print("Optimized:", Optimized, type(Optimized))
+                print("score:", score, type(score))
+                Optimized_int = int(Optimized)
 
-                data.append(ad_data)
+                if Optimized_int == score:
+                    if not any(ad["href_link"] == ad_data["href_link"] for ad in data):
+                        data.append(ad_data)
+
             except Exception as e:
                 
                 print('\n', e)
-        print("active status",active_status2)    
+        print("active status",active_status2)   
 
-    return render(request, 'Facebook&Instagram.html', {'ad_data': data, 'first_link': first_link, 'active_status2':active_status2, 'user': request.user} )
+    admin_categories = AdminCategory.objects.all()
+
+    return render(request, 'Facebook&Instagram.html', {'admin_categories': admin_categories,'ad_data': data, 'first_link': first_link, 'active_status2':active_status2, 'user': request.user} )
 
 def main_section_elemnent(text):
     pattern = r"Library ID:\s*(\d+).*?(Active).*?Started running on\s*(\d{1,2} \w+ \d{4})"
@@ -348,11 +594,11 @@ def google(request):
     try:
         stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
         subscription = stripe.Subscription.retrieve(usersubscribe)
-        active_status = subscription['plan']['active']
-        print(active_status)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
     except:
-        active_status = False
-    return render(request, 'Google.html', {'active_status':active_status, 'user': request.user})
+        active_status2 = False
+    return render(request, 'Google.html', {'active_status2':active_status2, 'user': request.user})
 
 @login_required(login_url='login')
 def tiktok(request):
@@ -361,11 +607,11 @@ def tiktok(request):
     try:
         stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
         subscription = stripe.Subscription.retrieve(usersubscribe)
-        active_status = subscription['plan']['active']
-        print(active_status)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
     except:
-        active_status = False
-    return render(request, 'TickTok.html', {'active_status':active_status, 'user': request.user})
+        active_status2 = False
+    return render(request, 'TickTok.html', {'active_status2':active_status2, 'user': request.user})
 
 @login_required(login_url='login')
 def youtube(request):
@@ -374,63 +620,151 @@ def youtube(request):
     try:
         stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
         subscription = stripe.Subscription.retrieve(usersubscribe)
-        active_status = subscription['plan']['active']
-        print(active_status)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
     except:
-        active_status = False
-    return render(request, 'Youtube.html', {'active_status':active_status, 'user': request.user})
+        active_status2 = False
+    return render(request, 'Youtube.html', {'active_status2':active_status2, 'user': request.user})
 
 
 @login_required(login_url='login')
 def subscription_form(request):
     user = request.user
     usersubscribe = request.user.subscription_id
+    
+    try:
+        card_details = []
+        invoices_data = []
+        stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
+        invoices = stripe.Invoice.list(customer=request.user.customer_id)
+        for invoice in invoices:
+            invoice_data = {
+                "id": invoice.id,
+                "amount_due": invoice.amount_due / 100,
+                "currency": invoice.currency,
+                "due_date": invoice.due_date,
+                "status": invoice.status,
+                "period_start": invoice.period_start,
+                "period_end": invoice.period_end,
+            }
+            invoices_data.append(invoice_data)
+        customer = stripe.Customer.retrieve(request.user.customer_id)
+        print(customer)
+        # Assuming the default payment method is a card
+        default_payment_method_id = customer.default_source
+        print(default_payment_method_id)
+        # Retrieve the default payment method details
+        if default_payment_method_id is not None:
+            default_payment_method = stripe.PaymentMethod.retrieve(default_payment_method_id)
+            
+            brand = default_payment_method["card"]["brand"]
+            name = default_payment_method["billing_details"]["name"]
+            exp_month = default_payment_method["card"]["exp_month"]
+            exp_year = default_payment_method["card"]["exp_year"]
+            last4 = default_payment_method["card"]["last4"]
+
+            card_details.append(brand)
+            card_details.append(name)
+            card_details.append(exp_month)
+            card_details.append(exp_year)
+            card_details.append(last4)
+
+    except Exception as e:
+        print("nothing",e)
+        invoices = None
+
     try:
         stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
         subscription = stripe.Subscription.retrieve(usersubscribe)
-        active_status = subscription['plan']['active']
-        print(active_status)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
+        
     except:
-        active_status = False
+        active_status2 = False
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
             token = data['token']
-            print("hi", token)
-            customer = stripe.Customer.create(
-                source=token,
-                email=request.user.email
-            )
+            print("token",token)
+            owner_name = data['owner']
+
+            
+            if not request.user.customer_id:
+                customer = stripe.Customer.create(
+                    source=token,
+                    email=request.user.email,
+                    name=owner_name  # Pass owner name to Stripe
+                )
+                request.user.customer_id = customer.id
+                request.user.save()
+
             subscription = stripe.Subscription.create(
                 customer=customer.id,
                 items=[
                     {'price': 'price_1Om43KEQYK3RMvAppzDAwN5F'},
                 ],
             )
-            print("hi2", subscription)
-            # Update user model with subscription information
+
+                
+            print(subscription.id)
             request.user.is_subscribe = True
             request.user.counter = 0
-            print(subscription.id)
+            
             request.user.subscription_id = subscription.id
-            print(request.user.subscription_id)
             request.user.save()
             Response = "Your Subscription Successful"
-            return JsonResponse({'success': False, 'message': Response})
-        
-        except stripe.error.CardError as e:
-            error_msg = str(e)
-            print("Welcome")
-            print(error_msg)
-            Response = error_msg
-            return JsonResponse({'success': False, 'message': Response})
-        
-    return render(request, 'Subscribe.html', {'data': request.user.is_subscribe , 'active_status':active_status , 'user': request.user})
+
+            return JsonResponse({'success': True, 'message': Response})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+    print(request.user.customer_id)
+    print(invoices)
+    print(card_details )
+    return render(request, 'Subscribe.html', {'data': request.user.is_subscribe , 'active_status2':active_status2 , 'user': request.user, 'invoices_data':invoices_data , 'card':card_details })
+
+
+
+@login_required(login_url='login')
+def update_card(request):
+    user = request.user
+    usersubscribe = request.user.subscription_id
+    try:
+        stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
+        subscription = stripe.Subscription.retrieve(usersubscribe)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
+    except:
+        active_status2 = False
+
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    print(request.user.subscription_id)
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            token = data['token']
+            owner_name = data['owner']
+            print(owner_name,"hi")
+            customer_id = request.user.customer_id
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+            print(request.user.email)
+            print(customer_id)
+            response = stripe.Customer.modify(
+                customer_id,
+                source=token,
+            )
+            print(response)
+            return JsonResponse({'success': True, 'message': 'Card updated successfully'})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'success': False, 'message': str(e)})
+    return render(request, 'update_card.html', {'data': request.user.is_subscribe , 'active_status2':active_status2 , 'user': request.user})
+
 
 def cancel_subscription(request):
     if request.method == 'POST':
+        stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
         print("here")
         subscription_id = request.user.subscription_id
         print("here",subscription_id)
@@ -455,8 +789,25 @@ def success(request):
     try:
         stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
         subscription = stripe.Subscription.retrieve(usersubscribe)
-        active_status = subscription['plan']['active']
-        print(active_status)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
     except:
-        active_status = False
+        active_status2 = False
     return render(request, 'success.html', {'user': request.user})
+
+@login_required
+def success1(request):
+    user = request.user
+    usersubscribe = request.user.subscription_id
+    try:
+        stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
+        subscription = stripe.Subscription.retrieve(usersubscribe)
+        active_status2 = subscription['plan']['active']
+        print(active_status2)
+    except:
+        active_status2 = False
+    return render(request, 'success1.html', {'user': request.user})
+
+
+
+

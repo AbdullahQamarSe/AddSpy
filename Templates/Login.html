@@ -251,7 +251,43 @@
             </div>
         </div> <!-- / .row -->
     </main> <!-- / main -->
+    <script>
+        $(document).ready(function() {
+        // Function to get user's IP address using ipinfo.io
+        $.getJSON('https://ipinfo.io/json/', function(data) {
+            var ip_address = data.ip;
+            var country_name = data.country;
+            var city = data.city; // Adding city to the data
+            var coordinates = data.loc;
+            
+            // Log data before sending to backend
+            console.log('IP Address:', ip_address);
+            console.log('Country Name:', country_name);
+            console.log('City:', city);
+            console.log('Coordinates:', coordinates);
+            
+            // Send data to backend using AJAX
+            $.ajax({
+                type: 'POST',
+                url: '{% url "save_visitor" %}',
+                data: {
+                    'ip_address': ip_address,
+                    'country_name': country_name,
+                    'city': city, // Sending city to backend
+                    'coordinates': coordinates,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    console.log('Data sent successfully');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
 
+    </script>
     <!-- JAVASCRIPT-->
     <!-- Theme JS -->
     <script src="{% static 'assets/js/theme.bundle.js' %}"></script>

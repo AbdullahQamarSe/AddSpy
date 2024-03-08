@@ -92,20 +92,21 @@
         </script>
         <style>
             .loader {
-                border: 8px solid #f3f3f3; /* Light grey */
-                border-top: 8px solid #3498db; /* Blue */
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-                animation: spin 2s linear infinite;
-                margin: 20px auto;
-                display: none; /* Initially hide the loader */
-            }
+        border: 8px solid #f3f3f3; /* Light grey */
+        border-top: 8px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 14s linear infinite; /* 14 seconds animation duration */
+        margin: 20px auto;
+        display: none; /* Initially hide the loader */
+    }
 
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
 
             @media (max-width:1000px) {
                 .recyclebin{
@@ -118,7 +119,7 @@
                     flex-wrap: wrap;
                 }
                 .two_divs{
-                    width: 35% !important ; 
+                    width: 25% !important ; 
                     margin-left: 10px;
                 }
             }
@@ -240,31 +241,22 @@
                                             <span>Dashboard</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'facebook_instagram' %}" class="nav-link active">
-                                            <span>Facebook & Instagram</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'google' %}" class="nav-link ">
-                                            <span>Google</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'tiktok' %}" class="nav-link">
-                                            <span>Tiktok</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'youtube' %}" class="nav-link ">
-                                            <span>Youtube</span>   
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'subscribe' %}" class="nav-link ">
-                                            <span>Check Subscription</span>   
-                                        </a>
-                                    </li>
+
+                                    {% if active_status2 == False %}
+                                        <li class="nav-item">
+                                            <a href="{% url 'subscription_limit' %}" class="nav-link ">
+                                                <span>Buy Subscription</span>   
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="nav-item">
+                                            <a href="{% url 'subscribe' %}" class="nav-link ">
+                                                <span>Subscription Settings</span>   
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+
                                     <li class="nav-item">
                                         <a href="{% url 'logout' %}" class="nav-link ">
                                             <span>Logout</span>   
@@ -276,7 +268,78 @@
                         <li class="nav-item w-100">
                             <hr>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link collapsed" href="#pagesCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="pagesCollapse">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                                </svg>
+                                <span>&nbsp;&nbsp;&nbsp;Facebook & &nbsp;&nbsp;&nbsp;Instagram</span>
+                            </a>
+                            <div class="collapse" id="pagesCollapse" >
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="{% url 'facebook_instagram' %}" class="nav-link active">
+                                            <span>Facebook & Instagram Ads</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link " href="#emailCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="emailCollapse">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                    <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
+                                </svg>
+                                <span>&nbsp;&nbsp;&nbsp;Google</span>
+                            </a>
+                            <div class="collapse " id="emailCollapse">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="./inbox.html" class="nav-link ">
+                                            <span>Google Ads</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link " href="#tasksCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="tasksCollapse">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                                    <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+                                  </svg>
+                                <span>&nbsp;&nbsp;&nbsp;Tiktok</span>
+                            </a>
+                            <div class="collapse " id="tasksCollapse">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="./kanban-board.html" class="nav-link ">
+                                            <span>Tiktok</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link " href="#tasksCollapse1" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="tasksCollapse">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+                                    <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+                                </svg>
+                                <span>&nbsp;&nbsp;&nbsp;Youtube</span>
+                            </a>
+                            <div class="collapse " id="tasksCollapse1">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="./kanban-board.html" class="nav-link ">
+                                            <span>Youtube</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
                     </ul>
+                    
                     <!-- End of Navigation -->
         
                     <!-- Info box -->
@@ -415,7 +478,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-6">
                                 <div class="d-flex flex-column">
                                     <label class="h4 mb-0 d-flex align-items-center" for="isFluid">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><path d="M4.79,17.21a1,1,0,0,0,.71.29.84.84,0,0,0,.38-.08,1,1,0,0,0,.62-.92v-3a.25.25,0,0,1,.25-.25h10.5a.25.25,0,0,1,.25.25v3a1,1,0,0,0,.62.92.84.84,0,0,0,.38.08,1,1,0,0,0,.71-.29l4.5-4.5a1,1,0,0,0,0-1.42l-4.5-4.5a1,1,0,0,0-1.09-.21,1,1,0,0,0-.62.92v3a.25.25,0,0,1-.25.25H6.75a.25.25,0,0,1-.25-.25v-3a1,1,0,0,0-.62-.92,1,1,0,0,0-1.09.21l-4.5,4.5a1,1,0,0,0,0,1.42Z" style="fill: currentColor"/></svg>                      
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="25" width="25"><path d="M4.79,17.21a1,1,0,0,0,.71.29.84.84,0,0,0,.38-.08,1,1,0,0,0,.62-.92v-3a.25.25,0,0,1,.25-.25h10.5a.25.25,0,0,1,.25.25v3a1,1,0,0,0,.62.92.84.84,0,0,0,.38.08,1,1,0,0,0,.71-.29l4.5-4.5a1,1,0,0,0,0-1.42l-4.5-4.5a1,1,0,0,0-1.09-.21,1,1,0,0,0-.62.92v3a.25.25,0,0,1-.25.25H6.75a.25.25,0,0,1-.25-.25v-3a1,1,0,0,0-.62-.92,1,1,0,0,0-1.09.21l-4.5,4.5a1,1,0,0,0,0,1.42Z" style="fill: currentColor"/></svg>                      
                                         Fluid layout
                                     </label>
                                     <p class="text-secondary fs-5 mb-0">Toggle container layout system</p>
@@ -430,7 +493,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-5">
                                 <div class="d-flex flex-column">
                                     <label class="h4 mb-0 d-flex align-items-center" for="isRTL">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><g><path d="M4.15,15.85A.47.47,0,0,0,4.5,16a.43.43,0,0,0,.19,0A.5.5,0,0,0,5,15.5V13a.25.25,0,0,1,.25-.25H11.5a1.25,1.25,0,0,0,0-2.5H5.25A.25.25,0,0,1,5,10V7.5A.49.49,0,0,0,4.69,7a.47.47,0,0,0-.54.11l-4,4a.48.48,0,0,0,0,.7Z" style="fill: currentColor"/><rect x="15.5" width="8.5" height="24" rx="2" style="fill: currentColor"/></g></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="25" width="25"><g><path d="M4.15,15.85A.47.47,0,0,0,4.5,16a.43.43,0,0,0,.19,0A.5.5,0,0,0,5,15.5V13a.25.25,0,0,1,.25-.25H11.5a1.25,1.25,0,0,0,0-2.5H5.25A.25.25,0,0,1,5,10V7.5A.49.49,0,0,0,4.69,7a.47.47,0,0,0-.54.11l-4,4a.48.48,0,0,0,0,.7Z" style="fill: currentColor"/><rect x="15.5" width="8.5" height="24" rx="2" style="fill: currentColor"/></g></svg>
                                         RTL Mode
                                     </label>
                                     <p class="text-secondary fs-5 mb-0">Switch your language direction</p>
@@ -447,7 +510,7 @@
                                 </div>
                                 <div class="col-lg mb-3">
                                     <button class="btn btn-light w-100 d-flex align-items-center justify-content-center" id="resetThemeConfig">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><path d="M12.57,1.26A10.81,10.81,0,0,0,2.82,8.4a.25.25,0,0,1-.27.16L.86,8.31a.52.52,0,0,0-.49.21.51.51,0,0,0,0,.53L3,13.75a.51.51,0,0,0,.43.25.52.52,0,0,0,.36-.14l3.77-3.75a.5.5,0,0,0-.28-.85L5.59,9a.26.26,0,0,1-.18-.13.24.24,0,0,1,0-.22,8.26,8.26,0,1,1,7.87,11.59,1.25,1.25,0,1,0,.09,2.5,10.75,10.75,0,0,0-.79-21.49Z" style="fill: currentColor"/></svg>                      
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="25" width="25"><path d="M12.57,1.26A10.81,10.81,0,0,0,2.82,8.4a.25.25,0,0,1-.27.16L.86,8.31a.52.52,0,0,0-.49.21.51.51,0,0,0,0,.53L3,13.75a.51.51,0,0,0,.43.25.52.52,0,0,0,.36-.14l3.77-3.75a.5.5,0,0,0-.28-.85L5.59,9a.26.26,0,0,1-.18-.13.24.24,0,0,1,0-.22,8.26,8.26,0,1,1,7.87,11.59,1.25,1.25,0,1,0,.09,2.5,10.75,10.75,0,0,0-.79-21.49Z" style="fill: currentColor"/></svg>                      
                                         Reset
                                     </button>
                                 </div>
@@ -485,35 +548,9 @@
             
                             <hr class="dropdown-divider">
             
-                            <!-- Dropdown -->
-                            <div class="dropdown dropend">
-                                <a class="dropdown-item dropdown-toggle" href="javascript: void(0);" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="-16,10">
-                                    Set status
-                                </a>
+                            
             
-                                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-sub-menu" aria-labelledby="statusDropdown">
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        <span class="legend-circle bg-success me-2"></span>Available
-                                    </a>
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        <span class="legend-circle bg-danger me-2"></span>Busy
-                                    </a>
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        <span class="legend-circle bg-warning me-2"></span>Away
-                                    </a>
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        <span class="legend-circle bg-gray-500 me-2"></span>Appear offline
-                                    </a>
-                                    <hr class="dropdown-divider">
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        Reset status
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- End Dropdown -->
-            
-                            <a class="dropdown-item" href="javascript: void(0);">Profile & account</a>
-                            <a class="dropdown-item" href="javascript: void(0);">Settings</a>
+                            <a class="dropdown-item" href="{% url 'profile' %}">Profile & account</a>
             
                             <hr class="dropdown-divider">
             
@@ -539,14 +576,6 @@
                                         <label for="Search" class="form-label">Search</label>
                                         <input type="text" class="form-control" id="search" name="search" placeholder="Search Add Here" >
                                     </div>
-
-                                    <div class="col-md">
-                                        <label for="country" class="form-label">Active Status</label>
-                                        <select id="active_status" name="active_status"  required class="form-select">
-                                            <option value="all">All</option>
-                                            <option value="active">Active</option>
-                                        </select>
-                                    </div>
                                     
                                 </div> <!-- / .row -->
                             </div>
@@ -559,263 +588,17 @@
                                         <select id="media_type" name="media_type" required class="form-select">
                                             <option value="all">All</option>
                                             <option value="image">Image</option>
+                                            <option value="video">Video</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md">
                                         <label for="country" class="form-label">Country</label>
-                                        <select class="form-select" id="country" name="country" required >
-                                            <option value="" label="Search Country"></option>
-                                            <option value="AF">Afghanistan</option>
-                                            <option value="AL">Albania</option>
-                                            <option value="DZ">Algeria</option>
-                                            <option value="AS">American Samoa</option>
-                                            <option value="AD">Andorra</option>
-                                            <option value="AO">Angola</option>
-                                            <option value="AI">Anguilla</option>
-                                            <option value="AQ">Antarctica</option>
-                                            <option value="AG">Antigua and Barbuda</option>
-                                            <option value="AR">Argentina</option>
-                                            <option value="AM">Armenia</option>
-                                            <option value="AW">Aruba</option>
-                                            <option value="AU">Australia</option>
-                                            <option value="AT">Austria</option>
-                                            <option value="AZ">Azerbaijan</option>
-                                            <option value="BS">Bahamas</option>
-                                            <option value="BH">Bahrain</option>
-                                            <option value="BD">Bangladesh</option>
-                                            <option value="BB">Barbados</option>
-                                            <option value="BY">Belarus</option>
-                                            <option value="BE">Belgium</option>
-                                            <option value="BZ">Belize</option>
-                                            <option value="BJ">Benin</option>
-                                            <option value="BM">Bermuda</option>
-                                            <option value="BT">Bhutan</option>
-                                            <option value="BO">Bolivia</option>
-                                            <option value="BQ">Caribbean Netherlands</option>
-                                            <option value="BA">Bosnia and Herzegovina</option>
-                                            <option value="BW">Botswana</option>
-                                            <option value="BV">Bouvet Island</option>
-                                            <option value="BR">Brazil</option>
-                                            <option value="IO">British Indian Ocean Territory</option>
-                                            <option value="VG">British Virgin Islands</option>
-                                            <option value="BN">Brunei</option>
-                                            <option value="BG">Bulgaria</option>
-                                            <option value="BF">Burkina Faso</option>
-                                            <option value="BI">Burundi</option>
-                                            <option value="KH">Cambodia</option>
-                                            <option value="CM">Cameroon</option>
-                                            <option value="CA">Canada</option>
-                                            <option value="CV">Cape Verde</option>
-                                            <option value="KY">Cayman Islands</option>
-                                            <option value="CF">Central African Republic</option>
-                                            <option value="TD">Chad</option>
-                                            <option value="CL">Chile</option>
-                                            <option value="CN">China</option>
-                                            <option value="CX">Christmas Island</option>
-                                            <option value="CC">Cocos Islands</option>
-                                            <option value="CO">Colombia</option>
-                                            <option value="KM">Comoros</option>
-                                            <option value="CG">Republic of the Congo</option>
-                                            <option value="CD">Democratic Republic of the Congo</option>
-                                            <option value="CK">Cook Islands</option>
-                                            <option value="CR">Costa Rica</option>
-                                            <option value="HR">Croatia</option>
-                                            <option value="CU">Cuba</option>
-                                            <option value="CW">Curaçao</option>
-                                            <option value="CY">Cyprus</option>
-                                            <option value="CZ">Czech Republic</option>
-                                            <option value="DK">Denmark</option>
-                                            <option value="DJ">Djibouti</option>
-                                            <option value="DM">Dominica</option>
-                                            <option value="DO">Dominican Republic</option>
-                                            <option value="TL">Timor-Leste</option>
-                                            <option value="EC">Ecuador</option>
-                                            <option value="EG">Egypt</option>
-                                            <option value="SV">El Salvador</option>
-                                            <option value="GQ">Equatorial Guinea</option>
-                                            <option value="ER">Eritrea</option>
-                                            <option value="EE">Estonia</option>
-                                            <option value="ET">Ethiopia</option>
-                                            <option value="FK">Falkland Islands</option>
-                                            <option value="FO">Faroe Islands</option>
-                                            <option value="FJ">Fiji</option>
-                                            <option value="FI">Finland</option>
-                                            <option value="FR">France</option>
-                                            <option value="GF">French Guiana</option>
-                                            <option value="PF">French Polynesia</option>
-                                            <option value="TF">French Southern Territories</option>
-                                            <option value="GA">Gabon</option>
-                                            <option value="GM">Gambia</option>
-                                            <option value="GE">Georgia</option>
-                                            <option value="DE">Germany</option>
-                                            <option value="GH">Ghana</option>
-                                            <option value="GI">Gibraltar</option>
-                                            <option value="GR">Greece</option>
-                                            <option value="GL">Greenland</option>
-                                            <option value="GD">Grenada</option>
-                                            <option value="GP">Guadeloupe</option>
-                                            <option value="GU">Guam</option>
-                                            <option value="GT">Guatemala</option>
-                                            <option value="GG">Guernsey</option>
-                                            <option value="GN">Guinea</option>
-                                            <option value="GW">Guinea-Bissau</option>
-                                            <option value="GY">Guyana</option>
-                                            <option value="HT">Haiti</option>
-                                            <option value="HM">Heard Island and McDonald Islands</option>
-                                            <option value="HN">Honduras</option>
-                                            <option value="HK">Hong Kong</option>
-                                            <option value="HU">Hungary</option>
-                                            <option value="IS">Iceland</option>
-                                            <option value="IN">India</option>
-                                            <option value="ID">Indonesia</option>
-                                            <option value="IR">Iran</option>
-                                            <option value="IQ">Iraq</option>
-                                            <option value="IE">Ireland</option>
-                                            <option value="IM">Isle of Man</option>
-                                            <option value="IL">Israel</option>
-                                            <option value="IT">Italy</option>
-                                            <option value="CI">Ivory Coast</option>
-                                            <option value="JM">Jamaica</option>
-                                            <option value="JP">Japan</option>
-                                            <option value="JE">Jersey</option>
-                                            <option value="JO">Jordan</option>
-                                            <option value="KZ">Kazakhstan</option>
-                                            <option value="KE">Kenya</option>
-                                            <option value="KI">Kiribati</option>
-                                            <option value="XK">Kosovo</option>
-                                            <option value="KW">Kuwait</option>
-                                            <option value="KG">Kyrgyzstan</option>
-                                            <option value="LA">Laos</option>
-                                            <option value="LV">Latvia</option>
-                                            <option value="LB">Lebanon</option>
-                                            <option value="LS">Lesotho</option>
-                                            <option value="LR">Liberia</option>
-                                            <option value="LY">Libya</option>
-                                            <option value="LI">Liechtenstein</option>
-                                            <option value="LT">Lithuania</option>
-                                            <option value="LU">Luxembourg</option>
-                                            <option value="MO">Macau</option>
-                                            <option value="MG">Madagascar</option>
-                                            <option value="MW">Malawi</option>
-                                            <option value="MY">Malaysia</option>
-                                            <option value="MV">Maldives</option>
-                                            <option value="ML">Mali</option>
-                                            <option value="MT">Malta</option>
-                                            <option value="MH">Marshall Islands</option>
-                                            <option value="MQ">Martinique</option>
-                                            <option value="MR">Mauritania</option>
-                                            <option value="MU">Mauritius</option>
-                                            <option value="YT">Mayotte</option>
-                                            <option value="MX">Mexico</option>
-                                            <option value="FM">Micronesia</option>
-                                            <option value="MD">Moldova</option>
-                                            <option value="MC">Monaco</option>
-                                            <option value="MN">Mongolia</option>
-                                            <option value="ME">Montenegro</option>
-                                            <option value="MS">Montserrat</option>
-                                            <option value="MA">Morocco</option>
-                                            <option value="MZ">Mozambique</option>
-                                            <option value="MM">Myanmar</option>
-                                            <option value="NA">Namibia</option>
-                                            <option value="NR">Nauru</option>
-                                            <option value="NP">Nepal</option>
-                                            <option value="AN">Netherlands Antilles</option>
-                                            <option value="NL">Netherlands</option>
-                                            <option value="NC">New Caledonia</option>
-                                            <option value="NZ">New Zealand</option>
-                                            <option value="NI">Nicaragua</option>
-                                            <option value="NE">Niger</option>
-                                            <option value="NG">Nigeria</option>
-                                            <option value="NU">Niue</option>
-                                            <option value="NF">Norfolk Island</option>
-                                            <option value="KP">North Korea</option>
-                                            <option value="MK">North Macedonia</option>
-                                            <option value="MP">Northern Mariana Islands</option>
-                                            <option value="NO">Norway</option>
-                                            <option value="OM">Oman</option>
-                                            <option value="PK">Pakistan</option>
-                                            <option value="PW">Palau</option>
-                                            <option value="PS">Palestine</option>
-                                            <option value="PA">Panama</option>
-                                            <option value="PG">Papua New Guinea</option>
-                                            <option value="PY">Paraguay</option>
-                                            <option value="PE">Peru</option>
-                                            <option value="PH">Philippines</option>
-                                            <option value="PN">Pitcairn Islands</option>
-                                            <option value="PL">Poland</option>
-                                            <option value="PT">Portugal</option>
-                                            <option value="PR">Puerto Rico</option>
-                                            <option value="QA">Qatar</option>
-                                            <option value="CG">Republic of the Congo</option>
-                                            <option value="RE">Réunion</option>
-                                            <option value="RO">Romania</option>
-                                            <option value="RU">Russia</option>
-                                            <option value="RW">Rwanda</option>
-                                            <option value="BL">Saint Barthélemy</option>
-                                            <option value="SH">Saint Helena</option>
-                                            <option value="KN">Saint Kitts and Nevis</option>
-                                            <option value="LC">Saint Lucia</option>
-                                            <option value="MF">Saint Martin</option>
-                                            <option value="PM">Saint Pierre and Miquelon</option>
-                                            <option value="VC">Saint Vincent and the Grenadines</option>
-                                            <option value="WS">Samoa</option>
-                                            <option value="SM">San Marino</option>
-                                            <option value="ST">São Tomé and Príncipe</option>
-                                            <option value="SA">Saudi Arabia</option>
-                                            <option value="SN">Senegal</option>
-                                            <option value="RS">Serbia</option>
-                                            <option value="SC">Seychelles</option>
-                                            <option value="SL">Sierra Leone</option>
-                                            <option value="SG">Singapore</option>
-                                            <option value="SX">Sint Maarten</option>
-                                            <option value="SK">Slovakia</option>
-                                            <option value="SI">Slovenia</option>
-                                            <option value="SB">Solomon Islands</option>
-                                            <option value="SO">Somalia</option>
-                                            <option value="ZA">South Africa</option>
-                                            <option value="GS">South Georgia and the South Sandwich Islands</option>
-                                            <option value="KR">South Korea</option>
-                                            <option value="SS">South Sudan</option>
-                                            <option value="ES">Spain</option>
-                                            <option value="LK">Sri Lanka</option>
-                                            <option value="SD">Sudan</option>
-                                            <option value="SR">Suriname</option>
-                                            <option value="SJ">Svalbard and Jan Mayen</option>
-                                            <option value="SE">Sweden</option>
-                                            <option value="CH">Switzerland</option>
-                                            <option value="SY">Syria</option>
-                                            <option value="TW">Taiwan</option>
-                                            <option value="TJ">Tajikistan</option>
-                                            <option value="TZ">Tanzania</option>
-                                            <option value="TH">Thailand</option>
-                                            <option value="TG">Togo</option>
-                                            <option value="TK">Tokelau</option>
-                                            <option value="TO">Tonga</option>
-                                            <option value="TT">Trinidad and Tobago</option>
-                                            <option value="TN">Tunisia</option>
-                                            <option value="TR">Turkey</option>
-                                            <option value="TM">Turkmenistan</option>
-                                            <option value="TC">Turks and Caicos Islands</option>
-                                            <option value="TV">Tuvalu</option>
-                                            <option value="UM">United States Minor Outlying Islands</option>
-                                            <option value="VI">U.S. Virgin Islands</option>
-                                            <option value="UG">Uganda</option>
-                                            <option value="UA">Ukraine</option>
-                                            <option value="AE">United Arab Emirates</option>
-                                            <option value="GB">United Kingdom</option>
-                                            <option value="US">United States</option>
-                                            <option value="UY">Uruguay</option>
-                                            <option value="UZ">Uzbekistan</option>
-                                            <option value="VU">Vanuatu</option>
-                                            <option value="VA">Vatican City</option>
-                                            <option value="VE">Venezuela</option>
-                                            <option value="VN">Vietnam</option>
-                                            <option value="WF">Wallis and Futuna</option>
-                                            <option value="EH">Western Sahara</option>
-                                            <option value="YE">Yemen</option>
-                                            <option value="ZM">Zambia</option>
-                                            <option value="ZW">Zimbabwe</option>
+                                        <select class="form-select" name="admin-category-dropdown" required >
+                                            <option value="">Select Admin Category</option>
+                                            {% for admin_category in admin_categories %}
+                                            <option value="{{ admin_category.country_name }}">{{ admin_category.country_name }}</option>
+                                            {% endfor %}
                                         </select>
                                         <div class="invalid-feedback">Please select a country</div>
                                     </div>
@@ -823,37 +606,48 @@
 
                                 <div class="mb-3" style="margin-top: 10px;">
                                     <div class="row">
-                                
-                                        <div class="col-md">
-                                            <label for="country" class="form-label">Platform</label>
-                                            <select id="publisher_platforms" name="publisher_platforms" required class="form-select">
-                                                <option value="all">All</option>
-                                                <option value="facebook">Facebook</option>
-                                                <option value="instagram">Instagram</option>
-                                            </select>
-                                        </div>
-
                                         <div class="col-md">
                                             <label for="country" class="form-label">Ad Type</label>
-                                            <select id="ad_type" name="ad_type" required class="form-select">
-                                                <option value="all">All</option>
-                                                <option value="political_and_issue_ads">Political and Issue Ads</option>
-                                                <option value="housing_ads">House Ads</option>
-                                                <option value="employment_ads">Employment Ads</option>
-                                                <option value="credit_ads">Credit Ads</option>
+                                            <select name="category-dropdown" required class="form-select" >
+                                                <option value="">Select Category</option>
                                             </select>
                                         </div>
-
                                     </div>
                                 </div>
-                                
+
+                                <div class="mb-3" style="margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label for="country" class="form-label">Optimized Score</label>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16" id="svgClick">
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+                                            </svg>
+                                            <select name="Optimized" required class="form-select" >
+                                                <option value="0">0%</option>
+                                                <option value="25">25%</option>
+                                                <option value="40">40%</option>
+                                                <option value="65">65%</option>
+                                                <option value="75">75%</option>
+                                                <option value="90">90%</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>   
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </form>
+                            
                         </div>
                     </div>
-                    <div id="loader" class="loader"></div>
+
+                    <div id="loader" class="loader">
+                    </div>
+                    <div style="justify-content: center; display: flex;">
+                        <div id="percentage" style="display:none;">0%</div>
+                    </div>
+                    </div>
                     <div class="justify-content:center; display:flex;">
                         {% if first_link %}
                             <h1><a href="{{ first_link }}" ><center>Go To Add Library</center></a></h1>
@@ -965,20 +759,83 @@
             </a>
             
         </main>
-        <script>
-            $(document).ready(function() {
-            $('form').on('submit', function() {
-                // Show the loader when the form is submitted
-                $('#loader').show();
-            });
         
-            // Add this if you want to hide the loader when the page has fully loaded
-            $(window).on('load', function() {
-                $('#loader').hide();
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+        document.getElementById('svgClick').addEventListener('click', function() {
+        // Show alert with the provided information
+        alert(
+            "If the duration is longer than weeks but less than or equal to 2 weeks, the score is 0.\n" +
+            "If the duration is longer than 2 weeks but less than or equal to 3 weeks, the score is 25.\n" +
+            "If the duration is longer than 3 weeks but less than or equal to 1 month, the score is 40.\n" +
+            "If the duration is longer than 1 month but less than or equal to 6 weeks, the score is 65.\n" +
+            "If the duration is longer than 6 weeks but less than or equal to 2 months, the score is 75.\n" +
+            "If the duration is longer than 2 months, the score is 90."
+        );
+        });
+
+        $(document).ready(function() {
+            $('select[name="admin-category-dropdown"]').change(function() {
+                var adminCategoryName = $(this).val();
+                if(adminCategoryName) {
+                    $.ajax({
+                        url: '/get_categories/',
+                        data: {
+                            'admin_category_name': adminCategoryName
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            $('select[name="category-dropdown"]').empty();
+                            $.each(data, function(index, category) {
+                                $('select[name="category-dropdown"]').append('<option value="' + category.name + '">' + category.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('select[name="category-dropdown"]').empty();
+                }
             });
         });
-        
         </script>
+        <script>
+            $(document).ready(function() {
+                // Initialize percentage variable
+                var percentage = 0;
+        
+                // Function to update percentage value
+                function updatePercentage() {
+                    $('#percentage').text(Math.floor(percentage) + "%");
+                }
+        
+                $('form').on('submit', function() {
+                    // Show the loader when the form is submitted
+                    $('#loader').show();
+                    
+                    // Show and update percentage when loader is shown
+                    $('#percentage').show();
+                    updatePercentage();
+                });
+        
+                // Add this if you want to hide the loader when the page has fully loaded
+                $(window).on('load', function() {
+                    $('#loader').hide();
+                    // Hide percentage and reset percentage value when loader is hidden
+                    $('#percentage').hide();
+                    percentage = 0;
+                    updatePercentage();
+                });
+                
+                // Animation for loader
+                setInterval(function() {
+                    // Increase percentage value when loader is showing
+                    if ($('#loader').is(':visible')) {
+                        percentage += (100 / 25) * 0.02;
+                        updatePercentage();
+                    }
+                }, 20); // Adjust the interval as needed for desired speed
+            });
+        </script>
+        
         <script>
             // Add JavaScript to dynamically adjust the width of the progress bar
             document.addEventListener("DOMContentLoaded", function() {
@@ -1003,52 +860,42 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(document).ready(function() {
-            $('form').on('submit', function() {
-                // Show the loader when the form is submitted
-                $('#loader').show();
-            });
-
-            // Add this if you want to hide the loader when the page has fully loaded
-            $(window).on('load', function() {
-                $('#loader').hide();
-            });
+    // Function to get user's IP address using ipinfo.io
+    $.getJSON('https://ipinfo.io/json/', function(data) {
+        var ip_address = data.ip;
+        var country_name = data.country;
+        var city = data.city; // Adding city to the data
+        var coordinates = data.loc;
+        
+        // Log data before sending to backend
+        console.log('IP Address:', ip_address);
+        console.log('Country Name:', country_name);
+        console.log('City:', city);
+        console.log('Coordinates:', coordinates);
+        
+        // Send data to backend using AJAX
+        $.ajax({
+            type: 'POST',
+            url: '{% url "save_visitor" %}',
+            data: {
+                'ip_address': ip_address,
+                'country_name': country_name,
+                'city': city, // Sending city to backend
+                'coordinates': coordinates,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                console.log('Data sent successfully');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
         });
+    });
+});
 
         </script>
-        <script>
-                $(document).ready(function() {
-                    // Function to get user's IP address using a free API
-                    $.getJSON('https://api.ipify.org?format=json', function(data) {
-                        var ip_address = data.ip;
-                        // Function to get user's country and coordinates using a free API
-                        $.getJSON('https://ipapi.co/' + ip_address + '/json/', function(data) {
-                            var country_name = data.country_name;
-                            var coordinates = data.latitude + ', ' + data.longitude;
-                            // Log data before sending to backend
-                            console.log('IP Address:', ip_address);
-                            console.log('Country Name:', country_name);
-                            console.log('Coordinates:', coordinates);
-                            // Send data to backend using AJAX
-                            $.ajax({
-                                type: 'POST',
-                                url: '{% url "save_visitor" %}',
-                                data: {
-                                    'ip_address': ip_address,
-                                    'country_name': country_name,
-                                    'coordinates': coordinates,
-                                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                                },
-                                success: function(response) {
-                                    console.log('Data sent successfully');
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-                            });
-                        });
-                    });
-                });
-            </script>
+        
         <script>
             $(document).ready(function(){
             $(".progress").each(function(){

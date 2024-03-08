@@ -194,31 +194,20 @@
                                             <span>Dashboard</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'facebook_instagram' %}" class="nav-link ">
-                                            <span>Facebook & Instagram</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'google' %}" class="nav-link ">
-                                            <span>Google</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'tiktok' %}" class="nav-link active">
-                                            <span>Tiktok</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'youtube' %}" class="nav-link ">
-                                            <span>Youtube</span>   
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'subscribe' %}" class="nav-link ">
-                                            <span>Check Subscription</span>   
-                                        </a>
-                                    </li>
+                                    {% if active_status2 == False %}
+                                        <li class="nav-item">
+                                            <a href="{% url 'subscription_limit' %}" class="nav-link ">
+                                                <span>Buy Subscription</span>   
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="nav-item">
+                                            <a href="{% url 'subscribe' %}" class="nav-link ">
+                                                <span>Subscription Settings</span>   
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
                                     <li class="nav-item">
                                         <a href="{% url 'logout' %}" class="nav-link ">
                                             <span>Logout</span>   
@@ -230,19 +219,92 @@
                         <li class="nav-item w-100">
                             <hr>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link collapsed" href="#pagesCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="pagesCollapse">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                                </svg>
+                                <span>&nbsp;&nbsp;&nbsp;Facebook & &nbsp;&nbsp;&nbsp;Instagram</span>
+                            </a>
+                            <div class="collapse" id="pagesCollapse" >
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="{% url 'facebook_instagram' %}" class="nav-link active">
+                                            <span>Facebook & Instagram Ads</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link " href="#emailCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="emailCollapse">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                    <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
+                                </svg>
+                                <span>&nbsp;&nbsp;&nbsp;Google</span>
+                            </a>
+                            <div class="collapse " id="emailCollapse">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="./inbox.html" class="nav-link ">
+                                            <span>Google Ads</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link " href="#tasksCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="tasksCollapse">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                                    <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+                                  </svg>
+                                <span>&nbsp;&nbsp;&nbsp;Tiktok</span>
+                            </a>
+                            <div class="collapse " id="tasksCollapse">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="./kanban-board.html" class="nav-link ">
+                                            <span>Tiktok</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link " href="#tasksCollapse1" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="tasksCollapse">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+                                    <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+                                </svg>
+                                <span>&nbsp;&nbsp;&nbsp;Youtube</span>
+                            </a>
+                            <div class="collapse " id="tasksCollapse1">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="./kanban-board.html" class="nav-link ">
+                                            <span>Youtube</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
                     </ul>
+                    
                     <!-- End of Navigation -->
         
                     <!-- Info box -->
-                    {% if active_status == False %}
-                    <div class="help-box rounded-3 py-5 px-4 text-center mt-auto">
-                        <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">    
-                        <h6>Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
-                        
-                        <!-- Button -->
+                    {% if active_status2 == False %}
+                    <div class="container recyclebin" style="background-color: rgba(0, 186, 199, .2); border-radius: 16px;">
+                        <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">
+                        <h6 style="text-align: center;">Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
                         <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a>
                     </div>
                     {% endif %}
+
+                    
+
+
                 </div>
                 <!-- End of Collapse -->
             </div>
@@ -437,35 +499,9 @@
             
                             <hr class="dropdown-divider">
             
-                            <!-- Dropdown -->
-                            <div class="dropdown dropend">
-                                <a class="dropdown-item dropdown-toggle" href="javascript: void(0);" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="-16,10">
-                                    Set status
-                                </a>
+                            
             
-                                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-sub-menu" aria-labelledby="statusDropdown">
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        <span class="legend-circle bg-success me-2"></span>Available
-                                    </a>
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        <span class="legend-circle bg-danger me-2"></span>Busy
-                                    </a>
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        <span class="legend-circle bg-warning me-2"></span>Away
-                                    </a>
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        <span class="legend-circle bg-gray-500 me-2"></span>Appear offline
-                                    </a>
-                                    <hr class="dropdown-divider">
-                                    <a class="dropdown-item" href="javascript: void(0);">
-                                        Reset status
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- End Dropdown -->
-            
-                            <a class="dropdown-item" href="javascript: void(0);">Profile & account</a>
-                            <a class="dropdown-item" href="javascript: void(0);">Settings</a>
+                            <a class="dropdown-item" href="{% url 'profile' %}">Profile & account</a>
             
                             <hr class="dropdown-divider">
             
