@@ -182,7 +182,7 @@
             </script>
         
         <!-- Page Title -->
-        <title>CRM Dashboard | Dashly</title>
+        <title>Dashboard | Adstealth </title>
     </head>
     
     <body>
@@ -226,12 +226,10 @@
             <div class="container-fluid">
                 
                 <!-- Brand -->
-                 <a class="navbar-brand" href="{% url 'dashboard' %}">
-                    <img src="{% static 'assets/images/logo-small.svg' %}" class="navbar-brand-img logo-light logo-small" alt="..." width="19" height="25">
-                    <img src="{% static 'assets/images/logo.svg' %}" class="navbar-brand-img logo-light logo-large" alt="..." width="125" height="25">
-                    <img src="{% static 'assets/images/logo-dark-small.svg' %}" class="navbar-brand-img logo-dark logo-small" alt="..." width="19" height="25">
-                    <img src="{% static 'assets/images/logo-dark.svg' %}" class="navbar-brand-img logo-dark logo-large" alt="..." width="125" height="25">
+                 <a class="navbar-brand" href="{% url 'dashboard' %}" style="font-size: 15px;display: flex; justify-content: center;">
+                        Adstealth 
                 </a>
+
         
                 <!-- Navbar toggler -->
                 <a href="javascript: void(0);" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#sidenavCollapse" aria-controls="sidenavCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -307,7 +305,7 @@
                             <div class="collapse " id="emailCollapse">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a href="./inbox.html" class="nav-link ">
+                                        <a href="{% url 'google' %}" class="nav-link ">
                                             <span>Google Ads</span>
                                         </a>
                                     </li>
@@ -324,7 +322,7 @@
                             <div class="collapse " id="tasksCollapse">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a href="./kanban-board.html" class="nav-link ">
+                                        <a href="{% url 'google' %}" class="nav-link ">
                                             <span>Tiktok</span>
                                         </a>
                                     </li>
@@ -342,7 +340,7 @@
                             <div class="collapse " id="tasksCollapse1">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a href="./kanban-board.html" class="nav-link ">
+                                        <a href="{% url 'google' %}" class="nav-link ">
                                             <span>Youtube</span>
                                         </a>
                                     </li>
@@ -476,10 +474,7 @@
                                     Fixed
                                 </label>
                     
-                                <input type="radio" class="btn-check" name="sidebarSizing" id="condensed" value="condensed" data-theme-control="sidebarBehaviour">
-                                <label class="btn btn-outline-primary px-3 w-100" for="condensed">
-                                    Condensed
-                                </label>
+                                 
                     
                                 <input type="radio" class="btn-check" name="sidebarSizing" id="scrollable" value="scrollable" data-theme-control="sidebarBehaviour">
                                 <label class="btn btn-outline-primary px-3 w-100" for="scrollable">
@@ -487,34 +482,6 @@
                                 </label>
                             </div>
                     
-                            <div class="d-flex justify-content-between align-items-center mb-6">
-                                <div class="d-flex flex-column">
-                                    <label class="h4 mb-0 d-flex align-items-center" for="isFluid">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><path d="M4.79,17.21a1,1,0,0,0,.71.29.84.84,0,0,0,.38-.08,1,1,0,0,0,.62-.92v-3a.25.25,0,0,1,.25-.25h10.5a.25.25,0,0,1,.25.25v3a1,1,0,0,0,.62.92.84.84,0,0,0,.38.08,1,1,0,0,0,.71-.29l4.5-4.5a1,1,0,0,0,0-1.42l-4.5-4.5a1,1,0,0,0-1.09-.21,1,1,0,0,0-.62.92v3a.25.25,0,0,1-.25.25H6.75a.25.25,0,0,1-.25-.25v-3a1,1,0,0,0-.62-.92,1,1,0,0,0-1.09.21l-4.5,4.5a1,1,0,0,0,0,1.42Z" style="fill: currentColor"/></svg>                      
-                                        Fluid layout
-                                    </label>
-                                    <p class="text-secondary fs-5 mb-0">Toggle container layout system</p>
-                                </div>
-                    
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" role="switch" data-theme-control="isFluid" id="isFluid" aria-label="Fluid layout switcher" checked>
-                                </div>
-                            </div>
-                    
-                            
-                            <div class="d-flex justify-content-between align-items-center mb-5">
-                                <div class="d-flex flex-column">
-                                    <label class="h4 mb-0 d-flex align-items-center" for="isRTL">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><g><path d="M4.15,15.85A.47.47,0,0,0,4.5,16a.43.43,0,0,0,.19,0A.5.5,0,0,0,5,15.5V13a.25.25,0,0,1,.25-.25H11.5a1.25,1.25,0,0,0,0-2.5H5.25A.25.25,0,0,1,5,10V7.5A.49.49,0,0,0,4.69,7a.47.47,0,0,0-.54.11l-4,4a.48.48,0,0,0,0,.7Z" style="fill: currentColor"/><rect x="15.5" width="8.5" height="24" rx="2" style="fill: currentColor"/></g></svg>
-                                        RTL Mode
-                                    </label>
-                                    <p class="text-secondary fs-5 mb-0">Switch your language direction</p>
-                                </div>
-                                
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" role="switch" data-theme-control="isRTL" id="isRTL" aria-label="RTL switcher">
-                                </div>
-                            </div>
                     
                             <div class="row gx-4 mt-auto">
                                 <div class="col-12">
@@ -576,14 +543,47 @@
 
             <div class="container-fluid" id="theme-container" style="width: 100% !important;">
                 <main style="display: flex; justify-content: center; ">
-                    <div class="card border-0 scroll-mt-3" style="padding: 30px; width: 100% !important;" id="paymentMethodsSection">
+                    <div class="card border-0 scroll-mt-3" style="padding: 30px; width: 100% !important; height: 80%;" id="paymentMethodsSection">
                         <div style="display: flex; justify-content: center;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="250" height="200" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
                                 <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
                                 <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
                             </svg>
                         </div>
-                        {% if request.user.is_subscribe %}
+                        <div class="card-body">
+                            {% if request.user.is_subscribe %}
+                            <h2 class="card-title h4 text-uppercase opacity-80 text-center mb-3">Advanced</h2>
+                            <h3 class="card-text display-3 text-center">
+                                $9.98 <span class="fs-3 fw-normal opacity-70">/ 2 mo</span>
+                            </h3>
+
+                            <!-- Divider -->
+                            <hr class="text-white">
+
+                            <ul class="list-unstyled mb-7">
+                                <li class="mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
+                                    4.99 / month
+                                </li>
+                                <li class="mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
+                                    Facebook and Instagram Ads
+                                </li>
+                                <li class="mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
+                                    Google Ads
+                                </li>
+                                <li class="mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
+                                    Tiktok Ads
+                                </li>
+                                <li class="mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" class="me-2 text-white"><path d="M23.37.29a1.49,1.49,0,0,0-2.09.34L7.25,20.2,2.56,15.51A1.5,1.5,0,0,0,.44,17.63l5.93,5.94a1.53,1.53,0,0,0,2.28-.19l15.07-21A1.49,1.49,0,0,0,23.37.29Z" style="fill: currentColor"></path></svg>
+                                    Youtube Ads
+                                </li>
+                            </ul>
+                        </div>
+                        
                         <button id="cancel-subscription" style="display: block; margin: 0 auto;">Cancel Subscription</button>
                         {% else %}
                         <form id="subscription-form">
@@ -597,13 +597,9 @@
                         </form>
                         {% endif %}
                     </div>
-                </main>
-                <div id="loading-circle" class="loading-circle" style="display: none; margin-top: 20px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite;"></div> 
-            </div>
-
-            {% if user.is_subscribe %}
+                    {% if user.is_subscribe %}
             <div class="container-fluid">
-                <div class="card border-0 scroll-mt-3 active" id="paymentMethodsSection">
+                <div class="card border-0 scroll-mt-3 active" id="paymentMethodsSection" style="height: 95%;">
                     <div class="card-header">
                         <h2 class="h3 mb-0">Payment methods</h2>
                     </div>
@@ -642,8 +638,13 @@
                 </div>
             </div>
             {% endif %}
+                </main>
+                <div id="loading-circle" class="loading-circle" style="display: none; margin-top: 20px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite;"></div> 
+            </div>
 
+            
 
+            <h2 class="h3 mb-0" style="display: flex; justify-content: center;">Payment Invoices</h2>
             <div class="container-fluid">
                 <div class="table-responsive">
                     {% if invoices_data %}
@@ -890,7 +891,7 @@
                 <div class="container-fluid mt-4 mb-6 text-muted">
                     <div class="row justify-content-between">
                         <div class="col">
-                            © Add Collection  2023 Webinning.
+                            © Adstealth 2023.
                         </div>
             
                         <div class="col-auto">

@@ -121,7 +121,7 @@
             </script>
         
         <!-- Page Title -->
-        <title>CRM Dashboard | Dashly</title>
+        <title>Dashboard | Adstealth </title>
     </head>
     
     <body>
@@ -165,11 +165,8 @@
             <div class="container-fluid">
                 
                 <!-- Brand -->
-                 <a class="navbar-brand" href="{% url 'dashboard' %}">
-                    <img src="{% static 'assets/images/logo-small.svg' %}" class="navbar-brand-img logo-light logo-small" alt="..." width="19" height="25">
-                    <img src="{% static 'assets/images/logo.svg' %}" class="navbar-brand-img logo-light logo-large" alt="..." width="125" height="25">
-                    <img src="{% static 'assets/images/logo-dark-small.svg' %}" class="navbar-brand-img logo-dark logo-small" alt="..." width="19" height="25">
-                    <img src="{% static 'assets/images/logo-dark.svg' %}" class="navbar-brand-img logo-dark logo-large" alt="..." width="125" height="25">
+                 <a class="navbar-brand" href="{% url 'dashboard' %}" style="font-size: 15px;display: flex; justify-content: center;">
+                    Adstealth 
                 </a>
         
                 <!-- Navbar toggler -->
@@ -246,7 +243,7 @@
                             <div class="collapse " id="emailCollapse">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a href="./inbox.html" class="nav-link ">
+                                        <a href="{% url 'google' %}" class="nav-link ">
                                             <span>Google Ads</span>
                                         </a>
                                     </li>
@@ -263,7 +260,7 @@
                             <div class="collapse " id="tasksCollapse">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a href="./kanban-board.html" class="nav-link ">
+                                        <a href="{% url 'google' %}" class="nav-link ">
                                             <span>Tiktok</span>
                                         </a>
                                     </li>
@@ -281,7 +278,7 @@
                             <div class="collapse " id="tasksCollapse1">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a href="./kanban-board.html" class="nav-link ">
+                                        <a href="{% url 'google' %}" class="nav-link ">
                                             <span>Youtube</span>
                                         </a>
                                     </li>
@@ -415,10 +412,7 @@
                                     Fixed
                                 </label>
                     
-                                <input type="radio" class="btn-check" name="sidebarSizing" id="condensed" value="condensed" data-theme-control="sidebarBehaviour">
-                                <label class="btn btn-outline-primary px-3 w-100" for="condensed">
-                                    Condensed
-                                </label>
+                                 
                     
                                 <input type="radio" class="btn-check" name="sidebarSizing" id="scrollable" value="scrollable" data-theme-control="sidebarBehaviour">
                                 <label class="btn btn-outline-primary px-3 w-100" for="scrollable">
@@ -426,34 +420,7 @@
                                 </label>
                             </div>
                     
-                            <div class="d-flex justify-content-between align-items-center mb-6">
-                                <div class="d-flex flex-column">
-                                    <label class="h4 mb-0 d-flex align-items-center" for="isFluid">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><path d="M4.79,17.21a1,1,0,0,0,.71.29.84.84,0,0,0,.38-.08,1,1,0,0,0,.62-.92v-3a.25.25,0,0,1,.25-.25h10.5a.25.25,0,0,1,.25.25v3a1,1,0,0,0,.62.92.84.84,0,0,0,.38.08,1,1,0,0,0,.71-.29l4.5-4.5a1,1,0,0,0,0-1.42l-4.5-4.5a1,1,0,0,0-1.09-.21,1,1,0,0,0-.62.92v3a.25.25,0,0,1-.25.25H6.75a.25.25,0,0,1-.25-.25v-3a1,1,0,0,0-.62-.92,1,1,0,0,0-1.09.21l-4.5,4.5a1,1,0,0,0,0,1.42Z" style="fill: currentColor"/></svg>                      
-                                        Fluid layout
-                                    </label>
-                                    <p class="text-secondary fs-5 mb-0">Toggle container layout system</p>
-                                </div>
-                    
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" role="switch" data-theme-control="isFluid" id="isFluid" aria-label="Fluid layout switcher" checked>
-                                </div>
-                            </div>
-                    
                             
-                            <div class="d-flex justify-content-between align-items-center mb-5">
-                                <div class="d-flex flex-column">
-                                    <label class="h4 mb-0 d-flex align-items-center" for="isRTL">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="me-2" height="16" width="16"><g><path d="M4.15,15.85A.47.47,0,0,0,4.5,16a.43.43,0,0,0,.19,0A.5.5,0,0,0,5,15.5V13a.25.25,0,0,1,.25-.25H11.5a1.25,1.25,0,0,0,0-2.5H5.25A.25.25,0,0,1,5,10V7.5A.49.49,0,0,0,4.69,7a.47.47,0,0,0-.54.11l-4,4a.48.48,0,0,0,0,.7Z" style="fill: currentColor"/><rect x="15.5" width="8.5" height="24" rx="2" style="fill: currentColor"/></g></svg>
-                                        RTL Mode
-                                    </label>
-                                    <p class="text-secondary fs-5 mb-0">Switch your language direction</p>
-                                </div>
-                                
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" role="switch" data-theme-control="isRTL" id="isRTL" aria-label="RTL switcher">
-                                </div>
-                            </div>
                     
                             <div class="row gx-4 mt-auto">
                                 <div class="col-12">
@@ -518,7 +485,7 @@
                 <div class="container-fluid mt-4 mb-6 text-muted">
                     <div class="row justify-content-between">
                         <div class="col">
-                            © Add Collection  2023 Webinning.
+                            © Adstealth 2023.
                         </div>
             
                         <div class="col-auto">

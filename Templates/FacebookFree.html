@@ -92,20 +92,21 @@
         </script>
         <style>
             .loader {
-                border: 8px solid #f3f3f3; /* Light grey */
-                border-top: 8px solid #3498db; /* Blue */
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-                animation: spin 2s linear infinite;
-                margin: 20px auto;
-                display: none; /* Initially hide the loader */
-            }
+        border: 8px solid #f3f3f3; /* Light grey */
+        border-top: 8px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 14s linear infinite; /* 14 seconds animation duration */
+        margin: 20px auto;
+        display: none; /* Initially hide the loader */
+    }
 
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
 
             @media (max-width:1000px) {
                 .recyclebin{
@@ -118,7 +119,7 @@
                     flex-wrap: wrap;
                 }
                 .two_divs{
-                    width: 35% !important ; 
+                    width: 25% !important ; 
                     margin-left: 10px;
                 }
             }
@@ -191,167 +192,7 @@
                 }
             </script>
         <!-- NAVIGATION -->
-        <nav id="mainNavbar" class="navbar navbar-vertical navbar-expand-lg scrollbar bg-dark navbar-dark">
-            
-            <!-- Theme configuration (navbar) -->
-                <script>
-                    let navigationColor = localStorage.getItem('navigationColor'),
-                        navbar = document.getElementById('mainNavbar');
-                
-                    if(navigationColor != null && navbar != null) {
-                        if(navigationColor == 'inverted') {
-                            navbar.classList.add('bg-dark', 'navbar-dark');
-                            navbar.classList.remove('bg-white', 'navbar-light');
-                        } else {
-                            navbar.classList.add('bg-white', 'navbar-light');
-                            navbar.classList.remove('bg-dark', 'navbar-dark');
-                        }
-                    }
-                </script>    
-            <div class="container-fluid">
-                
-                <!-- Brand -->
-                 <a class="navbar-brand" href="{% url 'dashboard' %}" style="font-size: 15px;display: flex; justify-content: center;">
-                    Adstealth 
-                </a>
         
-                <!-- Navbar toggler -->
-                <a href="javascript: void(0);" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#sidenavCollapse" aria-controls="sidenavCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-        
-                <!-- Collapse -->
-                <div class="collapse navbar-collapse" id="sidenavCollapse">
-        
-                    <!-- Navigation -->
-                    <ul class="navbar-nav mb-lg-7">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active" href="#dashboardsCollapse" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="dashboardsCollapse">
-                                <svg viewBox="0 0 24 24" class="nav-link-icon" height="18" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M3.753,13.944v8.25h6v-6a1.5,1.5,0,0,1,1.5-1.5h1.5a1.5,1.5,0,0,1,1.5,1.5v6h6v-8.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/><path d="M.753,12.444,10.942,2.255a1.5,1.5,0,0,1,2.122,0L23.253,12.444" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
-                                <span>Dashboards</span>
-                            </a>
-                            <div class="collapse show" id="dashboardsCollapse">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a href="{% url 'dashboard' %}" class="nav-link ">
-                                            <span>Dashboard</span>
-                                        </a>
-                                    </li>
-                                    {% if active_status2 == False %}
-                                        <li class="nav-item">
-                                            <a href="{% url 'subscription_limit' %}" class="nav-link ">
-                                                <span>Buy Subscription</span>   
-                                            </a>
-                                        </li>
-                                    {% else %}
-                                        <li class="nav-item">
-                                            <a href="{% url 'subscribe' %}" class="nav-link ">
-                                                <span>Subscription Settings</span>   
-                                            </a>
-                                        </li>
-                                    {% endif %}
-
-                                    <li class="nav-item">
-                                        <a href="{% url 'logout' %}" class="nav-link ">
-                                            <span>Logout</span>   
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item w-100">
-                            <hr>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link collapsed" href="#pagesCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="pagesCollapse">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
-                                </svg>
-                                <span>&nbsp;&nbsp;&nbsp;Facebook & &nbsp;&nbsp;&nbsp;Instagram</span>
-                            </a>
-                            <div class="collapse" id="pagesCollapse" >
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a href="{% url 'facebook_instagram' %}" class="nav-link active">
-                                            <span>Facebook & Instagram Ads</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link " href="#emailCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="emailCollapse">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
-                                    <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
-                                </svg>
-                                <span>&nbsp;&nbsp;&nbsp;Google</span>
-                            </a>
-                            <div class="collapse " id="emailCollapse">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a href="{% url 'google' %}" class="nav-link ">
-                                            <span>Google Ads</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link " href="#tasksCollapse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="tasksCollapse">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
-                                    <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
-                                  </svg>
-                                <span>&nbsp;&nbsp;&nbsp;Tiktok</span>
-                            </a>
-                            <div class="collapse " id="tasksCollapse">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a href="{% url 'google' %}" class="nav-link ">
-                                            <span>Tiktok</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link " href="#tasksCollapse1" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="tasksCollapse">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
-                                    <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
-                                </svg>
-                                <span>&nbsp;&nbsp;&nbsp;Youtube</span>
-                            </a>
-                            <div class="collapse " id="tasksCollapse1">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a href="{% url 'google' %}" class="nav-link ">
-                                            <span>Youtube</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                    </ul>
-                    
-                    <!-- End of Navigation -->
-        
-                    <!-- Info box -->
-                    {% if active_status2 == False %}
-                    <div class="container recyclebin" style="background-color: rgba(0, 186, 199, .2); border-radius: 16px;">
-                        <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">
-                        <h6 style="text-align: center;">Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
-                        <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a>
-                    </div>
-                    {% endif %}
-
-                    
-
-
-                </div>
-                <!-- End of Collapse -->
-            </div>
-        </nav>
         <!-- MAIN CONTENT -->
         <main>
 
@@ -362,8 +203,14 @@
                  
             
                 <!-- Top buttons -->
+                <div style="float:left; font-size: 25px; padding-left: 25px; color:blueviolet;">
+                    <a href="{% url 'login' %}">
+                        Adstealth
+                    </a>
+                </div>
+
                 <div class="d-flex align-items-center ms-auto me-n1 me-lg-n2">
-            
+                    
                     <!-- Dropdown -->
                     <div class="dropdown" id="themeSwitcher">
                         <a href="javascript: void(0);" class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,0">
@@ -466,6 +313,7 @@
                                 </label>
                             </div>
                     
+                            
                     
                             <div class="row gx-4 mt-auto">
                                 <div class="col-12">
@@ -509,15 +357,10 @@
                                 </div>
                             </div>
             
-                            <hr class="dropdown-divider">
-            
-                            
-            
-                            <a class="dropdown-item" href="{% url 'profile' %}">Profile & account</a>
             
                             <hr class="dropdown-divider">
             
-                            <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
+                            <a class="dropdown-item" href="{% url 'login' %}">Sign In</a>
                         </div>
                     </div>
                 </div>
@@ -525,43 +368,179 @@
 
 
             <main>   
-                <div class="container-fluid" style="display: flex; justify-content: center;">
-                    <div class="card border-0 py-6 px-md-6" style="width: 80%;">
-                        <h2 class="text-secondary text-center" >Change Name</h2>
-                        <form method="post" action="{% url 'change_name' %}">
+                <div class="container-fluid" style="width: 80%;">
+                    <div class="card border-0 py-6 px-md-6">
+                        <div class="card-body">
+                        <form method="post" action="{% url 'freeDashboard' %}" >
                             {% csrf_token %}
-                            <input type="text" class="form-control" id="search" name="name" value="{{ user.name }}" >
-                            <br>
-                            <button type="submit" class="btn btn-primary">Change Name</button>
-                            <br>
-                            <br>
-                            {% if change_name_error %}
-                                <p>{{ change_name_error }}</p>
-                            {% endif %}
+                            <h1 class="text-secondary text-center">Search</h1>
+                            <p class="text-secondary text-center">Facebook And Instagram</p>
+
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-md">
+                                        <label for="Search" class="form-label">Search</label>
+                                        <input type="text" class="form-control" id="search" name="search" placeholder="Search Add Here" >
+                                    </div>
+                                    
+                                </div> <!-- / .row -->
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="row">
+                                    
+                                    <div class="col-md">
+                                        <label for="country" class="form-label">Media Type</label>
+                                        <select id="media_type" name="media_type" required class="form-select">
+                                            <option value="all">All</option>
+                                            <option value="image">Image</option>
+                                            <option value="video">Video</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md">
+                                        <label for="country" class="form-label">Country</label>
+                                        <select class="form-select" name="admin-category-dropdown" required >
+                                            <option value="">Select Admin Category</option>
+                                            {% for admin_category in admin_categories %}
+                                            <option value="{{ admin_category.country_name }}">{{ admin_category.country_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="invalid-feedback">Please select a country</div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3" style="margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label for="country" class="form-label">Ad Type</label>
+                                            <select name="category-dropdown" required class="form-select" >
+                                                <option value="">Select Category</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3" style="margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label for="country" class="form-label">Optimized Score</label>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16" id="svgClick">
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+                                            </svg>
+                                            <select name="Optimized" required class="form-select" >
+                                                <option value="0">0%</option>
+                                                <option value="25">25%</option>
+                                                <option value="40">40%</option>
+                                                <option value="65">65%</option>
+                                                <option value="75">75%</option>
+                                                <option value="90">90%</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>   
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
                         </form>
-
-                        <br>
-                        
-                        <h2 class="text-secondary text-center" >Change Password</h2>
-                        <form method="post" action="{% url 'change_password' %}">
-                            {% csrf_token %}
-                            <input type="password" class="form-control" id="search" name="old_password"  placeholder="Old Password">
-                            <br>
-                            <input type="password" class="form-control" id="search" name="new_password1" placeholder="New Password">
-                            <br>
-                            <input type="password" class="form-control" id="search" name="new_password2" placeholder="Confirm New Password">
-                            <br>
-                            <button type="submit" class="btn btn-primary">Change Password</button>
-
-                            {% if change_password_error %}
-                                <p>{{ change_password_error }}</p>
-                            {% endif %}
-
-                        </form>
+                            
+                        </div>
                     </div>
+
+                    <div id="loader" class="loader">
+                    </div>
+                    <div style="justify-content: center; display: flex;">
+                        <div id="percentage" style="display:none;">0%</div>
+                    </div>
+                    </div>
+                    <div class="justify-content:center; display:flex;">
+                        {% if first_link %}
+                            <h1><a href="{{ first_link }}" ><center>Go To Add Library</center></a></h1>
+                        {% endif %}
+                    </div>
+                    <div class="container two_card">
+                        {% if ad_data %}
+                            {% for ad in ad_data %}
+                            {% if ad.media_url1 or ad.media_url %}
+                            
+                                <div class="card border-0 flex-fill w-100 two_divs">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <!-- Subtitle -->
+                                                <h3 class="mb-0">
+                                                    <a href="{{ad.href_link}}">{{ ad.fb_page_name }}</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row justify-content-between">
+                                            <div style="display: flex; justify-content: center;">
+                                                <center>
+                                                    {% if ad.media_url1 %}
+                                                        <video controls style="width: 100%; height:300px;">
+                                                            <source src="{{ ad.media_url1 }}" type="video/mp4" style="width: 100%; height:300px;">
+                                                        </video>
+                                                    {% endif %}
+                                                    {% if ad.media_url %}
+                                                        <img src="{{ ad.media_url }}" alt="Ad Media" style="width: 100%; height:300px;">
+                                                    {% endif %}
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row justify-content-between">
+                                            <div class="col-auto">
+                                                <p class="fs-6 text-muted text-uppercase mb-0">
+                                                    Status: {{ ad.status }}
+                                                </p>
+                                                <!-- Comment -->
+                                                <p class="fs-5 fw-bold mb-0">
+                                                    Library ID: {{ ad.library_id }}
+                                                </p>
+                                            </div>
+                                            <div class="col text-end text-truncate">
+                                                <!-- Label -->
+                                                <p class="fs-6 text-muted text-uppercase mb-0">
+                                                    Start Date : {{ ad.strt_date }}
+                                                </p>
+                                                <!-- Comment -->
+                                                <p class="fs-5 fw-bold mb-0">
+                                                    {{ ad.end_date }}
+                                                </p>
+                                            </div>
+                                        </div> <!-- / .row -->
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row justify-content-between">
+                                            <div class="col-auto">
+                                                <p class="fs-6 text-muted text-uppercase mb-0 ad-description">
+                                                    {{ ad.ad_description }}
+                                                </p>
+                                            </div>
+                                        </div> <!-- / .row -->
+                                    </div>
+                                    <!-- Add bar here -->
+                                    <h2 class="text-uppercase text-muted fw-semibold mb-2" style="display: flex; justify-content: center;">
+                                        {{ ad.score }} %
+                                    </h2>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: {{ ad.score }}%;" aria-valuenow="{{ ad.score }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                        {% elif request.method == 'POST' %}
+                            <p>No ads found based on the search criteria.</p>
+                        {% endif %}
+                    </div>
+                    
+                    
                 </div>
             </main>
-
             
             <!-- Footer-->
             <!-- Footer -->
@@ -587,19 +566,92 @@
             
         </main>
         <script>
-            $(document).ready(function() {
-            $('form').on('submit', function() {
-                // Show the loader when the form is submitted
-                $('#loader').show();
+            document.addEventListener('DOMContentLoaded', function() {
+                const descriptions = document.querySelectorAll('.ad-description');
+                descriptions.forEach(desc => {
+                    let words = desc.innerText.split(' ');
+                    if (words.length > 5) {
+                        desc.innerText = words.slice(0, 5).join(' ') + '...';
+                    }
+                });
             });
-        
-            // Add this if you want to hide the loader when the page has fully loaded
-            $(window).on('load', function() {
-                $('#loader').hide();
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+        document.getElementById('svgClick').addEventListener('click', function() {
+        // Show alert with the provided information
+        alert(
+            "If the duration is longer than weeks but less than or equal to 2 weeks, the score is 0.\n" +
+            "If the duration is longer than 2 weeks but less than or equal to 3 weeks, the score is 25.\n" +
+            "If the duration is longer than 3 weeks but less than or equal to 1 month, the score is 40.\n" +
+            "If the duration is longer than 1 month but less than or equal to 6 weeks, the score is 65.\n" +
+            "If the duration is longer than 6 weeks but less than or equal to 2 months, the score is 75.\n" +
+            "If the duration is longer than 2 months, the score is 90."
+        );
+        });
+
+        $(document).ready(function() {
+            $('select[name="admin-category-dropdown"]').change(function() {
+                var adminCategoryName = $(this).val();
+                if(adminCategoryName) {
+                    $.ajax({
+                        url: '/get_categories/',
+                        data: {
+                            'admin_category_name': adminCategoryName
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            $('select[name="category-dropdown"]').empty();
+                            $.each(data, function(index, category) {
+                                $('select[name="category-dropdown"]').append('<option value="' + category.name + '">' + category.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('select[name="category-dropdown"]').empty();
+                }
             });
         });
-        
         </script>
+        <script>
+            $(document).ready(function() {
+                // Initialize percentage variable
+                var percentage = 0;
+        
+                // Function to update percentage value
+                function updatePercentage() {
+                    $('#percentage').text(Math.floor(percentage) + "%");
+                }
+        
+                $('form').on('submit', function() {
+                    // Show the loader when the form is submitted
+                    $('#loader').show();
+                    
+                    // Show and update percentage when loader is shown
+                    $('#percentage').show();
+                    updatePercentage();
+                });
+        
+                // Add this if you want to hide the loader when the page has fully loaded
+                $(window).on('load', function() {
+                    $('#loader').hide();
+                    // Hide percentage and reset percentage value when loader is hidden
+                    $('#percentage').hide();
+                    percentage = 0;
+                    updatePercentage();
+                });
+                
+                // Animation for loader
+                setInterval(function() {
+                    // Increase percentage value when loader is showing
+                    if ($('#loader').is(':visible')) {
+                        percentage += (100 / 25) * 0.02;
+                        updatePercentage();
+                    }
+                }, 20); // Adjust the interval as needed for desired speed
+            });
+        </script>
+        
         <script>
             // Add JavaScript to dynamically adjust the width of the progress bar
             document.addEventListener("DOMContentLoaded", function() {
@@ -624,52 +676,42 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(document).ready(function() {
-            $('form').on('submit', function() {
-                // Show the loader when the form is submitted
-                $('#loader').show();
-            });
-
-            // Add this if you want to hide the loader when the page has fully loaded
-            $(window).on('load', function() {
-                $('#loader').hide();
+            // Function to get user's IP address using ipinfo.io
+            $.getJSON('https://ipinfo.io/json/', function(data) {
+                var ip_address = data.ip;
+                var country_name = data.country;
+                var city = data.city; // Adding city to the data
+                var coordinates = data.loc;
+                
+                // Log data before sending to backend
+                console.log('IP Address:', ip_address);
+                console.log('Country Name:', country_name);
+                console.log('City:', city);
+                console.log('Coordinates:', coordinates);
+                
+                // Send data to backend using AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "save_visitor" %}',
+                    data: {
+                        'ip_address': ip_address,
+                        'country_name': country_name,
+                        'city': city, // Sending city to backend
+                        'coordinates': coordinates,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        console.log('Data sent successfully');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
             });
         });
 
         </script>
-        <script>
-                $(document).ready(function() {
-                    // Function to get user's IP address using a free API
-                    $.getJSON('https://api.ipify.org?format=json', function(data) {
-                        var ip_address = data.ip;
-                        // Function to get user's country and coordinates using a free API
-                        $.getJSON('https://ipapi.co/' + ip_address + '/json/', function(data) {
-                            var country_name = data.country_name;
-                            var coordinates = data.latitude + ', ' + data.longitude;
-                            // Log data before sending to backend
-                            console.log('IP Address:', ip_address);
-                            console.log('Country Name:', country_name);
-                            console.log('Coordinates:', coordinates);
-                            // Send data to backend using AJAX
-                            $.ajax({
-                                type: 'POST',
-                                url: '{% url "save_visitor" %}',
-                                data: {
-                                    'ip_address': ip_address,
-                                    'country_name': country_name,
-                                    'coordinates': coordinates,
-                                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                                },
-                                success: function(response) {
-                                    console.log('Data sent successfully');
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-                            });
-                        });
-                    });
-                });
-            </script>
+        
         <script>
             $(document).ready(function(){
             $(".progress").each(function(){

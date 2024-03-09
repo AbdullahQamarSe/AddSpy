@@ -149,7 +149,6 @@ def change_name(request):
 
 @login_required(login_url='login')
 def change_password(request):
-
     user = request.user
     usersubscribe = request.user.subscription_id
     try:
@@ -161,6 +160,7 @@ def change_password(request):
         active_status2 = False
 
     change_password_error = None
+
     if request.method == 'POST':
         old_password = request.POST.get('old_password')
         new_password1 = request.POST.get('new_password1')
@@ -169,20 +169,24 @@ def change_password(request):
 
         if new_password1 != new_password2:
             change_password_error = "New passwords do not match."
+            return render(request, 'profile&account.html', {'active_status2':active_status2, 'change_password_error': change_password_error})
 
         else:
-            
             user = request.user
             form = PasswordChangeForm(user, {'old_password': old_password, 'new_password1': new_password1, 'new_password2': new_password2})
-            print(form)
 
-            if form.is_valid():
-                user = form.save()
-                update_session_auth_hash(request, user)  # Important for maintaining session
-                messages.success(request, 'Your password was successfully updated!')
-                return redirect('profile')
+            # Check if the old password provided by the user is correct
+            if user.check_password(old_password):
+                if form.is_valid():
+                    user = form.save()
+                    update_session_auth_hash(request, user)  # Important for maintaining session
+                    messages.success(request, 'Your password was successfully updated!')
+                    return redirect('profile')
+                else:
+                    change_password_error = "Your Old Password is Short (Minimum 8 Characters)"
             else:
-                change_password_error = "This password is too short. It must contain at least 8 characters. This password is too common."
+                change_password_error = "Incorrect old password provided."
+
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'profile&account.html', {'active_status2':active_status2,'form': form, 'change_password_error': change_password_error})
@@ -257,7 +261,7 @@ def save_visitor(request):
     else:
         return JsonResponse({'error': 'Invalid request method'})
 
-    
+@login_required(login_url='login')  
 def subscription_limit(request):
     user = request.user
     usersubscribe = request.user.subscription_id
@@ -650,10 +654,10 @@ def subscription_form(request):
             invoices_data.append(invoice_data)
         customer = stripe.Customer.retrieve(request.user.customer_id)
         print(customer)
-        # Assuming the default payment method is a card
         default_payment_method_id = customer.default_source
         print(default_payment_method_id)
-        # Retrieve the default payment method details
+        
+
         if default_payment_method_id is not None:
             default_payment_method = stripe.PaymentMethod.retrieve(default_payment_method_id)
             
@@ -699,14 +703,31 @@ def subscription_form(request):
                 )
                 request.user.customer_id = customer.id
                 request.user.save()
+                
+                subscription = stripe.Subscription.create(
+                    customer=customer.id,
+                    items=[
+                        {'price': 'price_1OsDRUEQYK3RMvApbbNhzBCt'},
+                    ],
+                )
 
-            subscription = stripe.Subscription.create(
+            if not request.user.First:
+                subscription = stripe.Subscription.create(
+                    customer=customer.id,
+                    items=[
+                        {'price': 'price_1OsDT2EQYK3RMvAp3P8tdDT7'},
+                    ],
+                    trial_period_days=60
+                )
+
+            if request.user.First:
+
+                subscription = stripe.Subscription.create(
                 customer=customer.id,
                 items=[
-                    {'price': 'price_1Om43KEQYK3RMvAppzDAwN5F'},
+                    {'price': 'price_1OsDT2EQYK3RMvAp3P8tdDT7'},
                 ],
-            )
-
+                )
                 
             print(subscription.id)
             request.user.is_subscribe = True
@@ -720,7 +741,7 @@ def subscription_form(request):
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
     print(request.user.customer_id)
-    print(invoices)
+    print("Hello",invoices)
     print(card_details )
     return render(request, 'Subscribe.html', {'data': request.user.is_subscribe , 'active_status2':active_status2 , 'user': request.user, 'invoices_data':invoices_data , 'card':card_details })
 
@@ -773,6 +794,7 @@ def cancel_subscription(request):
         # Update user model to reflect cancellation
         request.user.is_subscribe = False
         request.user.subscription_id = None
+        request.user.First = True
         request.user.save()
         return HttpResponse("Request cancelled", status=200)
     return HttpResponse("Internal Server Error", status=500)
@@ -810,4 +832,254 @@ def success1(request):
 
 
 
+
+def freeDashboard(request):
+
+    data = []
+    first_link=""
+    session_limit_key = 'subscription_limit'
+
+    if 'counter' not in request.session:
+        request.session['counter'] = 2
+
+
+    
+    if request.method == 'POST':
+        if request.session['counter'] >= 0:
+            request.session['counter'] -= 1
+            request.session.modified = True
+        else:
+            return redirect(subscription_limit)
+        
+        Optimized = request.POST.get('Optimized')
+        search = request.POST.get('search')
+        media_type = request.POST.get('media_type')
+        country = request.POST.get('admin-category-dropdown')
+        try:
+            country = pycountry.countries.lookup(country).alpha_2
+            print("Country Code:", country)
+        except LookupError:
+            print("Country not found")
+
+        active_status1 = "active"
+        categories = ['all', 'credit_ads', 'employment_ads', 'housing_ads', 'political_and_issue_ads']
+
+        # Get the ad_type from request.POST
+        ad_type = request.POST.get('category-dropdown')
+        if ad_type == "All ads":
+            ad_type = "all"
+
+        if ad_type == "Issues, elections or politics":
+            ad_type = "political_and_issue_ads"
+
+        if ad_type == "Properties":
+            ad_type = "housing_ads"
+
+        if ad_type == "Employment":
+            ad_type = 'employment_ads'
+
+        if ad_type == "Credit":
+            ad_type = 'credit_ads'
+
+        print("ad_type",ad_type)
+        print("working or not check",country,ad_type)
+
+        print(search,media_type,country,active_status1,ad_type)
+        glass = search
+
+        if search == "":
+            search = "."
+
+        print(search)
+        secound_search = search.replace(" ", "")
+        facebook_page = f"https://www.facebook.com/{secound_search}"
+        print(facebook_page)
+       
+        chrome_options = ChromeOptions()
+        chrome_options.add_argument("--disable-notifications")
+        driver = webdriver.Chrome(options=chrome_options)
+
+        publisher_platforms = request.POST.get('publisher_platforms')
+        wait = WebDriverWait(driver, 10)  # Adjust the timeout as needed
+        base_url = "https://www.facebook.com/ads/library/?active_status={}&ad_type={}&country={}&q={}&publisher_platforms[0]={}&sort_data[direction]=desc&sort_data[mode]=relevancy_monthly_grouped&search_type=keyword_unordered&media_type={}&content_languages[0]=en"
+
+        final_url = base_url.format(active_status1, ad_type, country, search, publisher_platforms, media_type)
+
+        driver.get(final_url)
+
+
+        try:
+            time.sleep(3)
+            email_input = driver.find_element(By.ID, "email")
+            email_input.send_keys("lksadmlaksdmlaksdm@gmail.com")
+
+            password_input = driver.find_element(By.ID, "pass")
+            password_input.send_keys("Sul15871592")
+
+            login_button = driver.find_element(By.CSS_SELECTOR, "[data-testid='royal_login_button']")
+            login_button.click()
+        except Exception as e:
+                print(e)
+        try:
+
+            input_field_classes = ".x1ejq31n.xd10rxx.x1sy0etr.x17r0tee.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.ximmm8s.x1rg5ohu.x1f6kntn.x3stwaq.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x1a2a7pz.x6ikm8r.x10wlt62.x1y1aw1k.x1pi30zi.xwib8y2.x1swvt13.x1n2onr6.xlyipyv.xh8yej3.xhtitgo"
+            input_field = driver.find_element(By.CSS_SELECTOR, input_field_classes)
+            input_field.send_keys(" ")
+
+
+            # Wait for 4 seconds
+            time.sleep(5)
+
+            # Find the button and click
+            button_classes = ".x132q4wb "
+            button = driver.find_element(By.CSS_SELECTOR, button_classes)
+
+            text = button.find_element(By.CSS_SELECTOR, ".x8t9es0 ")
+            linkname = text.text
+            linkname_without_spaces = linkname.replace(" ", "")
+            search = search.replace(" ", "")
+
+            print("Pokemon",linkname_without_spaces,search)
+            print(linkname_without_spaces.lower(),search.lower())
+            if linkname_without_spaces.lower() == search.lower():
+                print("bothcorrect")
+                button.click()
+                time.sleep(2)
+                driver.current_url
+                first_link = driver.current_url
+            
+            print("not found")
+        except Exception as e :
+            print(e)
+
+            
+        
+        driver.get(final_url)
+        time.sleep(7)
+
+        driver.execute_script("window.scrollBy(0, 500);")
+        time.sleep(2)
+        driver.execute_script("window.scrollBy(500, 1000);")
+        time.sleep(2)
+        driver.execute_script("window.scrollBy(1000, 1500);")
+        time.sleep(2)
+        driver.execute_script("window.scrollBy(1500, 2500);")
+        time.sleep(2)
+        source = driver.page_source
+        soup = BeautifulSoup(source, 'html.parser')
+        page_name = soup.find_all("div", class_='_7jvw x2izyaf x1hq5gj4 x1d52u69')
+
+        for i in range(len(page_name)):
+            try:
+                ad_data = {}
+                main_section = page_name[i].find_all('div', class_='x1cy8zhl x78zum5 xyamay9 x1pi30zi x18d9i69 x1swvt13 x1n2onr6')
+                main_section_data = main_section_elemnent(main_section[0].text)
+                if main_section_data:
+                    ad_data.update(main_section_data)
+
+                fb_page_name = page_name[i].find('div', class_='_3qn7 _61-0 _2fyi _3qng').text
+                ad_data["fb_page_name"] = fb_page_name
+
+                href_link = page_name[i].find('a', class_='xt0psk2 x1hl2dhg xt0b8zv x8t9es0 x1fvot60 xxio538 xjnfcd9 xq9mrsl x1yc453h x1h4wwuj x1fcty0u')['href']
+                print("Href link:", href_link)
+                ad_data["href_link"] = href_link
+
+                try:
+                    ad_description = page_name[i].find("div", class_='_7jyr _a25-').text
+                except:
+                    ad_description = page_name[i].find("div", class_='_7jyr').text
+                ad_data["ad_description"] = ad_description
+                
+                strt_date = page_name[i].find_all('span', class_='x8t9es0 xw23nyj xo1l8bm x63nzvj x108nfp6 xq9mrsl x1h4wwuj xeuugli')
+                print("hi",strt_date[1].text)
+
+
+
+                from datetime import datetime
+
+                # Assuming you have already extracted the date string and stored it in strt_date[1].text
+                date_str = strt_date[1].text
+
+                # Check if the date string contains a range
+                if "-" in date_str:
+                    # If it's a range, split it into start and end dates
+                    start_date_str, end_date_str = date_str.split(" - ")
+                    # Convert start date string to datetime object
+                    strt_date = datetime.strptime(start_date_str, "%d %b %Y").date()
+                    # Convert end date string to datetime object
+                    end_date = datetime.strptime(end_date_str, "%d %b %Y").date()
+                else:
+                    # If it's not a range, consider it as just a single date
+                    # Convert the date string to datetime object
+                    strt_date = datetime.strptime(date_str.split("on ")[1], "%d %b %Y").date()
+                    # Set end date to current date
+                    end_date = datetime.now().date()
+
+                # Now you have start_date and end_date, you can use them as needed
+                ad_data["strt_date"] = strt_date
+                ad_data["end_date"] = end_date
+
+                duration = end_date - strt_date
+
+                # Calculate weeks and remaining days
+                weeks = duration.days // 7
+                remaining_days = duration.days % 7
+
+                # Calculate months and remaining days
+                months = duration.days // 30
+                remaining_days_month = duration.days % 30
+
+                # Construct the duration string
+                duration_str = ""
+                if weeks > 0:
+                    duration_str += f"{weeks} {'week' if weeks == 1 else 'weeks'} "
+                if remaining_days > 0:
+                    duration_str += f"{remaining_days} {'day' if remaining_days == 1 else 'days'}"
+                if months > 0:
+                    duration_str += f"{months} {'month' if months == 1 else 'months'} "
+
+                # Determine the score based on the duration
+                score = 0
+                if weeks < 1:
+                    score = 0
+                elif weeks <= 2:
+                    score = 25
+                elif weeks >= 3:
+                    score = 40
+                elif months >= 1:
+                    score = 65
+                elif weeks >= 6:
+                    score = 75
+                elif months >= 2:
+                    score = 90
+
+                # Update ad_data with duration string and score
+                ad_data["duration"] = duration_str.strip()  # Strip leading/trailing whitespace
+                ad_data["score"] = score
+
+                print(strt_date,end_date)
+                print(score)
+
+                image = page_name[i].find('img', class_='x1ll5gia x19kjcj4 xh8yej3')
+                video = page_name[i].find('video', class_='x1lliihq x5yr21d xh8yej3')
+                if image:
+                    ad_data["media_url"] = image['src']
+                elif video:
+                    ad_data["media_url1"] = video['src']
+                print("Optimized:", Optimized, type(Optimized))
+                print("score:", score, type(score))
+                Optimized_int = int(Optimized)
+
+                if Optimized_int == score:
+                    if not any(ad["href_link"] == ad_data["href_link"] for ad in data):
+                        data.append(ad_data)
+
+            except Exception as e:
+                
+                print('\n', e)
+  
+
+    admin_categories = AdminCategory.objects.all()
+
+    return render(request, 'FacebookFree.html', {'admin_categories': admin_categories,'ad_data': data, 'first_link': first_link} )
 

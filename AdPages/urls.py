@@ -3,6 +3,7 @@ from .views import *
 
 urlpatterns = [
     path('', Dashboard, name='dashboard'),
+    path('freeDashboard/', freeDashboard, name='freeDashboard'),
     path('facebook-instagram/', facebook_instagram, name='facebook_instagram'),
     path('google/', google, name='google'),
     path('tiktok/', tiktok, name='tiktok'),

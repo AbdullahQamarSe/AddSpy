@@ -10,8 +10,10 @@ class userauthenticate(AbstractUser):
     password = models.CharField(max_length=122)
     is_subscribe = models.BooleanField(default=False)
     counter = models.IntegerField(default=2, null=True, blank=True)
-    subscription_id = models.CharField(max_length=254, null=True, blank=True)  # New field for storing subscription ID
+    subscription_id = models.CharField(max_length=254, null=True, blank=True)
+    subscription_id2 = models.CharField(max_length=254, null=True, blank=True)  # New field for storing subscription ID
     customer_id = models.CharField(max_length=254, null=True, blank=True)
+    First = models.BooleanField(default=False)
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
