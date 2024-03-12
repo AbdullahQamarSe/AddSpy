@@ -744,7 +744,7 @@
                     var csrftoken = getCookie('csrftoken');
     
                     // Send request to backend to cancel subscription
-                    fetch('http://54.169.133.221/cancel-subscription/', {
+                    fetch('http://127.0.0.1:8000/cancel-subscription/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -828,7 +828,7 @@
                 // Extract token ID
                 var tokenId = result.token.id;
                 // Send token ID and owner name to backend
-                fetch('http://54.169.133.221/subscribe/', {
+                fetch('http://127.0.0.1:8000/subscribe/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

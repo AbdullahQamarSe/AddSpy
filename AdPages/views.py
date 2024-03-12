@@ -3,6 +3,7 @@ from django.db.models import Count
 from .models import Visitor ,userauthenticate , Visitor1
 import stripe
 import json
+import datetime
 from django.utils.timezone import localtime
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -112,9 +113,12 @@ def get_categories(request):
     if admin_category_name:
         categories = Category.objects.filter(country=admin_category_name)
         data = [{'name': category.name} for category in categories]
-        return JsonResponse(data, safe=False)
     else:
-        return JsonResponse([], safe=False)
+        # If no admin category is selected, return default category or categories for "United States"
+        default_categories = Category.objects.filter(country='United States')  # Assuming 'United States' is the default
+        data = [{'name': category.name} for category in default_categories]
+    return JsonResponse(data, safe=False)
+
 
 
 def admin_category_dropdown(request):
@@ -304,6 +308,38 @@ def facebook_instagram(request):
         search = request.POST.get('search')
         media_type = request.POST.get('media_type')
         country = request.POST.get('admin-category-dropdown')
+        pk_value = request.POST.get('pk_value')
+
+        print(f"Optimized: {Optimized}")
+        print(f"Search: {search}")
+        print(f"Media Type: {media_type}")
+        print(f"Country: {country}")
+
+        import datetime
+
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+
+        if Optimized == '90':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(days=90)).strftime("%Y-%m-%d")  # 2 months previous
+            end_date = (datetime.datetime.now() - datetime.timedelta(days=60)).strftime("%Y-%m-%d")
+        elif Optimized == '75':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(days=60)).strftime("%Y-%m-%d")  # 6 weeks previous
+            end_date = (datetime.datetime.now() - datetime.timedelta(weeks=6)).strftime("%Y-%m-%d")
+        elif Optimized == '65':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(weeks=6)).strftime("%Y-%m-%d")
+            end_date = (datetime.datetime.now() - datetime.timedelta(weeks=4)).strftime("%Y-%m-%d")
+        elif Optimized == '40':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(weeks=4)).strftime("%Y-%m-%d")  # 3 weeks previous
+            end_date = (datetime.datetime.now() - datetime.timedelta(weeks=3)).strftime("%Y-%m-%d")
+        elif Optimized == '25':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(weeks=3)).strftime("%Y-%m-%d")  # 2 weeks previous
+            end_date = (datetime.datetime.now() - datetime.timedelta(weeks=2)).strftime("%Y-%m-%d")
+        elif Optimized == '0':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(weeks=2)).strftime("%Y-%m-%d")  # 1 day previous
+            end_date = current_date
+        else:
+            start_date_min = current_date
+
         try:
             country = pycountry.countries.lookup(country).alpha_2
             print("Country Code:", country)
@@ -337,22 +373,21 @@ def facebook_instagram(request):
         glass = search
 
         if search == "":
-            search = "."
+            search = ad_type
+        
+        if ad_type != "":
+            search = ad_type
 
-        print(search)
-        secound_search = search.replace(" ", "")
-        facebook_page = f"https://www.facebook.com/{secound_search}"
-        print(facebook_page)
-       
         chrome_options = ChromeOptions()
         chrome_options.add_argument("--disable-notifications")
         driver = webdriver.Chrome(options=chrome_options)
 
         publisher_platforms = request.POST.get('publisher_platforms')
         wait = WebDriverWait(driver, 10)  # Adjust the timeout as needed
-        base_url = "https://www.facebook.com/ads/library/?active_status={}&ad_type={}&country={}&q={}&publisher_platforms[0]={}&sort_data[direction]=desc&sort_data[mode]=relevancy_monthly_grouped&search_type=keyword_unordered&media_type={}&content_languages[0]=en"
+        base_url = "https://www.facebook.com/ads/library/?active_status={}&ad_type={}&country={}&q={}&publisher_platforms[0]={}&sort_data[direction]=desc&sort_data[mode]=relevancy_monthly_grouped&start_date[min]={}&start_date[max]={}&search_type=keyword_unordered&media_type={}&content_languages[0]=en"
 
-        final_url = base_url.format(active_status1, ad_type, country, search, publisher_platforms, media_type)
+        
+        final_url = base_url.format(active_status1, "all", country, search, publisher_platforms, start_date_min, end_date, media_type)
 
         driver.get(final_url)
 
@@ -405,14 +440,135 @@ def facebook_instagram(request):
         
         driver.get(final_url)
         time.sleep(7)
+        if pk_value == '1':
+            driver.execute_script("window.scrollBy(0, 500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(500, 1000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(1000, 1500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(1500, 2500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(2500, 3500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(3500, 4500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(4500, 5500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(5500, 6500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(6500, 7500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(7500, 8500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(8500, 9500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(9500, 10500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(10500, 11500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(11500, 12500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(12500, 13500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(13500, 14500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(14500, 15500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(15500, 16500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(16500, 17500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(17500, 18500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(18500, 19500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(19500, 20000);")
+        elif pk_value == '2':
+            driver.execute_script("window.scrollBy(0, 500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(500, 1000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(1000, 1500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(1500, 2500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(2500, 3500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(3500, 4500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(4500, 5500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(5500, 6500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(6500, 7500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(7500, 8500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(8500, 9500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(9500, 10500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(10500, 11500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(11500, 12500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(12500, 13500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(13500, 14500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(14500, 15500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(15500, 16500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(16500, 17500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(17500, 18500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(18500, 19500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(19500, 20000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(20000, 21000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(21000, 22000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(22000, 23000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(23000, 24000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(24000, 25000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(25000, 26000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(26000, 27000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(27000, 28000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(28000, 29000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(29000, 30000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(30000, 31000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(31000, 32000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(32000, 33000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(33000, 34000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(34000, 35000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(35000, 36000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(36000, 37000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(37000, 38000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(38000, 39000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(39000, 40000);")
 
-        driver.execute_script("window.scrollBy(0, 500);")
-        time.sleep(2)
-        driver.execute_script("window.scrollBy(500, 1000);")
-        time.sleep(2)
-        driver.execute_script("window.scrollBy(1000, 1500);")
-        time.sleep(2)
-        driver.execute_script("window.scrollBy(1500, 2500);")
         time.sleep(2)
         source = driver.page_source
         soup = BeautifulSoup(source, 'html.parser')
@@ -487,27 +643,14 @@ def facebook_instagram(request):
                 if months > 0:
                     duration_str += f"{months} {'month' if months == 1 else 'months'} "
 
-                # Determine the score based on the duration
-                score = 0
-                if weeks < 1:
-                    score = 0
-                elif weeks <= 2:
-                    score = 25
-                elif weeks >= 3:
-                    score = 40
-                elif months >= 1:
-                    score = 65
-                elif weeks >= 6:
-                    score = 75
-                elif months >= 2:
-                    score = 90
+                
 
                 # Update ad_data with duration string and score
                 ad_data["duration"] = duration_str.strip()  # Strip leading/trailing whitespace
-                ad_data["score"] = score
+                ad_data["score"] = Optimized
+                print(Optimized)
+                print(ad_data["score"],"ad_data['score']")
 
-                print(strt_date,end_date)
-                print(score)
 
                 image = page_name[i].find('img', class_='x1ll5gia x19kjcj4 xh8yej3')
                 video = page_name[i].find('video', class_='x1lliihq x5yr21d xh8yej3')
@@ -516,21 +659,27 @@ def facebook_instagram(request):
                 elif video:
                     ad_data["media_url1"] = video['src']
                 print("Optimized:", Optimized, type(Optimized))
-                print("score:", score, type(score))
-                Optimized_int = int(Optimized)
 
-                if Optimized_int == score:
-                    if not any(ad["href_link"] == ad_data["href_link"] for ad in data):
-                        data.append(ad_data)
+                if not any(ad["href_link"] == ad_data["href_link"] for ad in data):
+                    data.append(ad_data)
 
             except Exception as e:
                 
                 print('\n', e)
+                
         print("active status",active_status2)   
+        data_dict = {
+            'ad_data': data,
+            'first_link': first_link,
+            'active_status2': active_status2,
+            'user': str(request.user)
+        }
+        return JsonResponse(data_dict)
+    return render(request, 'Facebook&Instagram.html', {'ad_data': data, 'first_link': first_link, 'active_status2':active_status2, 'user': request.user} )
 
-    admin_categories = AdminCategory.objects.all()
 
-    return render(request, 'Facebook&Instagram.html', {'admin_categories': admin_categories,'ad_data': data, 'first_link': first_link, 'active_status2':active_status2, 'user': request.user} )
+
+
 
 def main_section_elemnent(text):
     pattern = r"Library ID:\s*(\d+).*?(Active).*?Started running on\s*(\d{1,2} \w+ \d{4})"
