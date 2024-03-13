@@ -357,7 +357,8 @@
                     <div class="container recyclebin" style="background-color: rgba(0, 186, 199, .2); border-radius: 16px;">
                         <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">
                         <h6 style="text-align: center;">Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
-                        <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a>
+                        <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a><br>
+<br>
                     </div>
                     {% endif %}
 
@@ -543,7 +544,7 @@
 
             <div class="container-fluid" id="theme-container" style="width: 100% !important;">
                 <main style="display: flex; justify-content: center; ">
-                    <div class="card border-0 scroll-mt-3" style="padding: 30px; width: 100% !important; height: 80%;" id="paymentMethodsSection">
+                    <div class="card border-0 scroll-mt-3" style="padding: 30px; width: 60% !important; height: 80%;" id="paymentMethodsSection">
                         <div style="display: flex; justify-content: center;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="250" height="200" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
                                 <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
@@ -589,7 +590,7 @@
                         <form id="subscription-form">
                             <h1 style="text-align: center;">Enter Card Details To Pay For Subscription</h1>
                             <label for="card-owner" style="display: block; margin-bottom: 10px;">Card Owner Name:</label>
-                            <input type="text" id="card-owner" name="card-owner" required style="width: 100%; height: 30px;border-radius: 5px; border: none; padding: 20px;" placeholder="Card Holder Name">
+                            <input type="text" id="card-owner" name="card-owner" required style="width: 100%; height: 30px;border-radius: 5px; padding: 20px;" placeholder="Card Holder Name">
                             <label for="card-element" style="display: block; margin-bottom: 10px;">Enter your credit or debit card information:</label>
                             <div id="card-element" style="background-color: var(--bg-color); border: 1px solid var(--text-color); border-radius: 5px; padding: 10px;"></div>
                             <div id="card-errors" role="alert" class="error" style="color: #dc3545; margin-top: 10px;"></div>
@@ -744,7 +745,7 @@
                     var csrftoken = getCookie('csrftoken');
     
                     // Send request to backend to cancel subscription
-                    fetch('http://127.0.0.1:8000/cancel-subscription/', {
+                    fetch('http://54.169.133.221/cancel-subscription/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -828,7 +829,7 @@
                 // Extract token ID
                 var tokenId = result.token.id;
                 // Send token ID and owner name to backend
-                fetch('http://127.0.0.1:8000/subscribe/', {
+                fetch('http://54.169.133.221/subscribe/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

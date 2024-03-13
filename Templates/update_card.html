@@ -356,7 +356,8 @@
                     <div class="container recyclebin" style="background-color: rgba(0, 186, 199, .2); border-radius: 16px;">
                         <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">
                         <h6 style="text-align: center;">Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
-                        <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a>
+                        <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a><br>
+<br>
                     </div>
                     {% endif %}
 
@@ -552,7 +553,7 @@
                         <form id="update-card-form" action="POST">
                             <h1 style="text-align: center;">Update Card Details</h1>
                             <label for="card-owner" style="display: block; margin-bottom: 10px;">Card Owner Name:</label>
-                            <input type="text" id="card-owner" name="card-owner" required style="width: 100%; height: 30px;border-radius: 5px; border: none; padding: 20px;" placeholder="Card Holder Name">
+                            <input type="text" id="card-owner" name="card-owner" required style="width: 100%; height: 30px;border-radius: 5px;  padding: 20px;" placeholder="Card Holder Name">
                             <label for="card-element" style="display: block; margin-bottom: 10px;">Enter your new credit or debit card information:</label>
                             <div id="card-element" style="background-color: var(--bg-color); border: 1px solid var(--text-color); border-radius: 5px; padding: 10px;"></div>
                             <div id="card-errors" role="alert" class="error" style="color: #dc3545; margin-top: 10px;"></div>
@@ -678,7 +679,7 @@
                     } else {
                         var csrfToken = getCookie('csrftoken');
                         var tokenId = result.token.id;
-                        fetch('http://127.0.0.1:8000/updatecard/', {
+                        fetch('http://54.169.133.221/updatecard/', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

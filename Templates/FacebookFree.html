@@ -368,11 +368,11 @@
 
 
             <main>   
-                <div class="container-fluid" style="width: 80%;">
+                <div class="container-fluid">
                     <div class="card border-0 py-6 px-md-6">
                         <div class="card-body">
-                        <form method="post" action="{% url 'freeDashboard' %}" >
-                            {% csrf_token %}
+                        <form id="searchForm">
+                                {% csrf_token %}
                             <h1 class="text-secondary text-center">Search</h1>
                             <p class="text-secondary text-center">Facebook And Instagram</p>
 
@@ -401,12 +401,258 @@
                                     <div class="col-md">
                                         <label for="country" class="form-label">Country</label>
                                         <select class="form-select" name="admin-category-dropdown" required >
-                                            <option value="">Select Admin Category</option>
-                                            {% for admin_category in admin_categories %}
-                                            <option value="{{ admin_category.country_name }}">{{ admin_category.country_name }}</option>
-                                            {% endfor %}
+                                            <option value="US">United States</option>
+                                            <option value="AF">Afghanistan</option>
+                                            <option value="AL">Albania</option>
+                                            <option value="DZ">Algeria</option>
+                                            <option value="AS">American Samoa</option>
+                                            <option value="AD">Andorra</option>
+                                            <option value="AO">Angola</option>
+                                            <option value="AI">Anguilla</option>
+                                            <option value="AQ">Antarctica</option>
+                                            <option value="AG">Antigua and Barbuda</option>
+                                            <option value="AR">Argentina</option>
+                                            <option value="AM">Armenia</option>
+                                            <option value="AW">Aruba</option>
+                                            <option value="AU">Australia</option>
+                                            <option value="AT">Austria</option>
+                                            <option value="AZ">Azerbaijan</option>
+                                            <option value="BS">Bahamas</option>
+                                            <option value="BH">Bahrain</option>
+                                            <option value="BD">Bangladesh</option>
+                                            <option value="BB">Barbados</option>
+                                            <option value="BY">Belarus</option>
+                                            <option value="BE">Belgium</option>
+                                            <option value="BZ">Belize</option>
+                                            <option value="BJ">Benin</option>
+                                            <option value="BM">Bermuda</option>
+                                            <option value="BT">Bhutan</option>
+                                            <option value="BO">Bolivia</option>
+                                            <option value="BQ">Caribbean Netherlands</option>
+                                            <option value="BA">Bosnia and Herzegovina</option>
+                                            <option value="BW">Botswana</option>
+                                            <option value="BV">Bouvet Island</option>
+                                            <option value="BR">Brazil</option>
+                                            <option value="IO">British Indian Ocean Territory</option>
+                                            <option value="VG">British Virgin Islands</option>
+                                            <option value="BN">Brunei</option>
+                                            <option value="BG">Bulgaria</option>
+                                            <option value="BF">Burkina Faso</option>
+                                            <option value="BI">Burundi</option>
+                                            <option value="KH">Cambodia</option>
+                                            <option value="CM">Cameroon</option>
+                                            <option value="CA">Canada</option>
+                                            <option value="CV">Cape Verde</option>
+                                            <option value="KY">Cayman Islands</option>
+                                            <option value="CF">Central African Republic</option>
+                                            <option value="TD">Chad</option>
+                                            <option value="CL">Chile</option>
+                                            <option value="CN">China</option>
+                                            <option value="CX">Christmas Island</option>
+                                            <option value="CC">Cocos Islands</option>
+                                            <option value="CO">Colombia</option>
+                                            <option value="KM">Comoros</option>
+                                            <option value="CG">Republic of the Congo</option>
+                                            <option value="CD">Democratic Republic of the Congo</option>
+                                            <option value="CK">Cook Islands</option>
+                                            <option value="CR">Costa Rica</option>
+                                            <option value="HR">Croatia</option>
+                                            <option value="CU">Cuba</option>
+                                            <option value="CW">Curaçao</option>
+                                            <option value="CY">Cyprus</option>
+                                            <option value="CZ">Czech Republic</option>
+                                            <option value="DK">Denmark</option>
+                                            <option value="DJ">Djibouti</option>
+                                            <option value="DM">Dominica</option>
+                                            <option value="DO">Dominican Republic</option>
+                                            <option value="EC">Ecuador</option>
+                                            <option value="EG">Egypt</option>
+                                            <option value="SV">El Salvador</option>
+                                            <option value="GQ">Equatorial Guinea</option>
+                                            <option value="ER">Eritrea</option>
+                                            <option value="EE">Estonia</option>
+                                            <option value="ET">Ethiopia</option>
+                                            <option value="FK">Falkland Islands</option>
+                                            <option value="FO">Faroe Islands</option>
+                                            <option value="FJ">Fiji</option>
+                                            <option value="FI">Finland</option>
+                                            <option value="FR">France</option>
+                                            <option value="GF">French Guiana</option>
+                                            <option value="PF">French Polynesia</option>
+                                            <option value="TF">French Southern Territories</option>
+                                            <option value="GA">Gabon</option>
+                                            <option value="GM">Gambia</option>
+                                            <option value="GE">Georgia</option>
+                                            <option value="DE">Germany</option>
+                                            <option value="GH">Ghana</option>
+                                            <option value="GI">Gibraltar</option>
+                                            <option value="GR">Greece</option>
+                                            <option value="GL">Greenland</option>
+                                            <option value="GD">Grenada</option>
+                                            <option value="GP">Guadeloupe</option>
+                                            <option value="GU">Guam</option>
+                                            <option value="GT">Guatemala</option>
+                                            <option value="GG">Guernsey</option>
+                                            <option value="GN">Guinea</option>
+                                            <option value="GW">Guinea-Bissau</option>
+                                            <option value="GY">Guyana</option>
+                                            <option value="HT">Haiti</option>
+                                            <option value="HM">Heard Island and McDonald Islands</option>
+                                            <option value="HN">Honduras</option>
+                                            <option value="HK">Hong Kong</option>
+                                            <option value="HU">Hungary</option>
+                                            <option value="IS">Iceland</option>
+                                            <option value="IN">India</option>
+                                            <option value="ID">Indonesia</option>
+                                            <option value="IR">Iran</option>
+                                            <option value="IQ">Iraq</option>
+                                            <option value="IE">Ireland</option>
+                                            <option value="IM">Isle of Man</option>
+                                            <option value="IL">Israel</option>
+                                            <option value="IT">Italy</option>
+                                            <option value="CI">Ivory Coast</option>
+                                            <option value="JM">Jamaica</option>
+                                            <option value="JP">Japan</option>
+                                            <option value="JE">Jersey</option>
+                                            <option value="JO">Jordan</option>
+                                            <option value="KZ">Kazakhstan</option>
+                                            <option value="KE">Kenya</option>
+                                            <option value="KI">Kiribati</option>
+                                            <option value="XK">Kosovo</option>
+                                            <option value="KW">Kuwait</option>
+                                            <option value="KG">Kyrgyzstan</option>
+                                            <option value="LA">Laos</option>
+                                            <option value="LV">Latvia</option>
+                                            <option value="LB">Lebanon</option>
+                                            <option value="LS">Lesotho</option>
+                                            <option value="LR">Liberia</option>
+                                            <option value="LY">Libya</option>
+                                            <option value="LI">Liechtenstein</option>
+                                            <option value="LT">Lithuania</option>
+                                            <option value="LU">Luxembourg</option>
+                                            <option value="MO">Macau</option>
+                                            <option value="MG">Madagascar</option>
+                                            <option value="MW">Malawi</option>
+                                            <option value="MY">Malaysia</option>
+                                            <option value="MV">Maldives</option>
+                                            <option value="ML">Mali</option>
+                                            <option value="MT">Malta</option>
+                                            <option value="MH">Marshall Islands</option>
+                                            <option value="MQ">Martinique</option>
+                                            <option value="MR">Mauritania</option>
+                                            <option value="MU">Mauritius</option>
+                                            <option value="YT">Mayotte</option>
+                                            <option value="MX">Mexico</option>
+                                            <option value="FM">Micronesia</option>
+                                            <option value="MD">Moldova</option>
+                                            <option value="MC">Monaco</option>
+                                            <option value="MN">Mongolia</option>
+                                            <option value="ME">Montenegro</option>
+                                            <option value="MS">Montserrat</option>
+                                            <option value="MA">Morocco</option>
+                                            <option value="MZ">Mozambique</option>
+                                            <option value="MM">Myanmar</option>
+                                            <option value="NA">Namibia</option>
+                                            <option value="NR">Nauru</option>
+                                            <option value="NP">Nepal</option>
+                                            <option value="AN">Netherlands Antilles</option>
+                                            <option value="NL">Netherlands</option>
+                                            <option value="NC">New Caledonia</option>
+                                            <option value="NZ">New Zealand</option>
+                                            <option value="NI">Nicaragua</option>
+                                            <option value="NE">Niger</option>
+                                            <option value="NG">Nigeria</option>
+                                            <option value="NU">Niue</option>
+                                            <option value="NF">Norfolk Island</option>
+                                            <option value="KP">North Korea</option>
+                                            <option value="MK">North Macedonia</option>
+                                            <option value="MP">Northern Mariana Islands</option>
+                                            <option value="NO">Norway</option>
+                                            <option value="OM">Oman</option>
+                                            <option value="PK">Pakistan</option>
+                                            <option value="PW">Palau</option>
+                                            <option value="PS">Palestine</option>
+                                            <option value="PA">Panama</option>
+                                            <option value="PG">Papua New Guinea</option>
+                                            <option value="PY">Paraguay</option>
+                                            <option value="PE">Peru</option>
+                                            <option value="PH">Philippines</option>
+                                            <option value="PN">Pitcairn Islands</option>
+                                            <option value="PL">Poland</option>
+                                            <option value="PT">Portugal</option>
+                                            <option value="PR">Puerto Rico</option>
+                                            <option value="QA">Qatar</option>
+                                            <option value="CG">Republic of the Congo</option>
+                                            <option value="RE">Réunion</option>
+                                            <option value="RO">Romania</option>
+                                            <option value="RU">Russia</option>
+                                            <option value="RW">Rwanda</option>
+                                            <option value="BL">Saint Barthélemy</option>
+                                            <option value="SH">Saint Helena</option>
+                                            <option value="KN">Saint Kitts and Nevis</option>
+                                            <option value="LC">Saint Lucia</option>
+                                            <option value="MF">Saint Martin</option>
+                                            <option value="PM">Saint Pierre and Miquelon</option>
+                                            <option value="VC">Saint Vincent and the Grenadines</option>
+                                            <option value="WS">Samoa</option>
+                                            <option value="SM">San Marino</option>
+                                            <option value="ST">São Tomé and Príncipe</option>
+                                            <option value="SA">Saudi Arabia</option>
+                                            <option value="SN">Senegal</option>
+                                            <option value="RS">Serbia</option>
+                                            <option value="SC">Seychelles</option>
+                                            <option value="SL">Sierra Leone</option>
+                                            <option value="SG">Singapore</option>
+                                            <option value="SX">Sint Maarten</option>
+                                            <option value="SK">Slovakia</option>
+                                            <option value="SI">Slovenia</option>
+                                            <option value="SB">Solomon Islands</option>
+                                            <option value="SO">Somalia</option>
+                                            <option value="ZA">South Africa</option>
+                                            <option value="GS">South Georgia and the South Sandwich Islands</option>
+                                            <option value="KR">South Korea</option>
+                                            <option value="SS">South Sudan</option>
+                                            <option value="ES">Spain</option>
+                                            <option value="LK">Sri Lanka</option>
+                                            <option value="SD">Sudan</option>
+                                            <option value="SR">Suriname</option>
+                                            <option value="SJ">Svalbard and Jan Mayen</option>
+                                            <option value="SE">Sweden</option>
+                                            <option value="CH">Switzerland</option>
+                                            <option value="SY">Syria</option>
+                                            <option value="TW">Taiwan</option>
+                                            <option value="TJ">Tajikistan</option>
+                                            <option value="TZ">Tanzania</option>
+                                            <option value="TH">Thailand</option>
+                                            <option value="TL">Timor-Leste</option>
+                                            <option value="TG">Togo</option>
+                                            <option value="TK">Tokelau</option>
+                                            <option value="TO">Tonga</option>
+                                            <option value="TT">Trinidad and Tobago</option>
+                                            <option value="TN">Tunisia</option>
+                                            <option value="TR">Turkey</option>
+                                            <option value="TM">Turkmenistan</option>
+                                            <option value="TC">Turks and Caicos Islands</option>
+                                            <option value="TV">Tuvalu</option>
+                                            <option value="UM">United States Minor Outlying Islands</option>
+                                            <option value="VI">U.S. Virgin Islands</option>
+                                            <option value="UG">Uganda</option>
+                                            <option value="UA">Ukraine</option>
+                                            <option value="AE">United Arab Emirates</option>
+                                            <option value="GB">United Kingdom</option>
+                                            <option value="US">United States</option>
+                                            <option value="UY">Uruguay</option>
+                                            <option value="UZ">Uzbekistan</option>
+                                            <option value="VU">Vanuatu</option>
+                                            <option value="VA">Vatican City</option>
+                                            <option value="VE">Venezuela</option>
+                                            <option value="VN">Vietnam</option>
+                                            <option value="WF">Wallis and Futuna</option>
+                                            <option value="EH">Western Sahara</option>
+                                            <option value="YE">Yemen</option>
+                                            <option value="ZM">Zambia</option>
+                                            <option value="ZW">Zimbabwe</option>
                                         </select>
-                                        <div class="invalid-feedback">Please select a country</div>
                                     </div>
                                 </div>
 
@@ -414,12 +660,33 @@
                                     <div class="row">
                                         <div class="col-md">
                                             <label for="country" class="form-label">Ad Type</label>
-                                            <select name="category-dropdown" required class="form-select" >
+                                            <select name="category-dropdown" class="form-select">
                                                 <option value="">Select Category</option>
+                                                <option value="Technology and Electronics">Technology and Electronics</option>
+                                                <option value="Health and Wellness">Health and Wellness</option>
+                                                <option value="E-commerce and Retail">E-commerce and Retail</option>
+                                                <option value="Hospitality and Travel">Hospitality and Travel</option>
+                                                <option value="Finance and Investment">Finance and Investment</option>
+                                                <option value="Food and Beverage">Food and Beverage</option>
+                                                <option value="Real Estate">Real Estate</option>
+                                                <option value="Automotive">Automotive</option>
+                                                <option value="Education and Training">Education and Training</option>
+                                                <option value="Entertainment and Media">Entertainment and Media</option>
+                                                <option value="Fashion and Apparel">Fashion and Apparel</option>
+                                                <option value="Home and Garden">Home and Garden</option>
+                                                <option value="Beauty and Personal Care">Beauty and Personal Care</option>
+                                                <option value="Fitness and Sports">Fitness and Sports</option>
+                                                <option value="Business Services">Business Services</option>
+                                                <option value="Pets and Animals">Pets and Animals</option>
+                                                <option value="Environmental Sustainability">Environmental Sustainability</option>
+                                                <option value="Arts and Crafts">Arts and Crafts</option>
+                                                <option value="Wedding and Event Planning">Wedding and Event Planning</option>
+                                                <option value="Childcare and Parenting Services">Childcare and Parenting Services</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
+                                
 
                                 <div class="mb-3" style="margin-top: 10px;">
                                     <div class="row">
@@ -430,112 +697,37 @@
                                                 <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
                                             </svg>
                                             <select name="Optimized" required class="form-select" >
-                                                <option value="0">0%</option>
-                                                <option value="25">25%</option>
-                                                <option value="40">40%</option>
-                                                <option value="65">65%</option>
-                                                <option value="75">75%</option>
                                                 <option value="90">90%</option>
+                                                <option value="75">75%</option>
+                                                <option value="65">65%</option>
+                                                <option value="40">40%</option>
+                                                <option value="25">25%</option>
+                                                <option value="0">0%</option>
+
                                             </select>
                                         </div>
                                     </div>
                                 </div>   
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" id="submitBtn" class="btn btn-primary">Save changes</button>
                         </form>
                             
                         </div>
                     </div>
 
-                    <div id="loader" class="loader">
+                    
                     </div>
+                    
+                    <div class="container two_cardq" style="display: flex; justify-content: center;"></div>
+                    <div class="container two_card">
+                        <!-- This is where the AJAX response data will be inserted -->
+                    </div>
+                    <div id="loader" class="loader"></div>
                     <div style="justify-content: center; display: flex;">
                         <div id="percentage" style="display:none;">0%</div>
                     </div>
-                    </div>
-                    <div class="justify-content:center; display:flex;">
-                        {% if first_link %}
-                            <h1><a href="{{ first_link }}" ><center>Go To Add Library</center></a></h1>
-                        {% endif %}
-                    </div>
-                    <div class="container two_card">
-                        {% if ad_data %}
-                            {% for ad in ad_data %}
-                            {% if ad.media_url1 or ad.media_url %}
-                            
-                                <div class="card border-0 flex-fill w-100 two_divs">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col">
-                                                <!-- Subtitle -->
-                                                <h3 class="mb-0">
-                                                    <a href="{{ad.href_link}}">{{ ad.fb_page_name }}</a>
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row justify-content-between">
-                                            <div style="display: flex; justify-content: center;">
-                                                <center>
-                                                    {% if ad.media_url1 %}
-                                                        <video controls style="width: 100%; height:300px;">
-                                                            <source src="{{ ad.media_url1 }}" type="video/mp4" style="width: 100%; height:300px;">
-                                                        </video>
-                                                    {% endif %}
-                                                    {% if ad.media_url %}
-                                                        <img src="{{ ad.media_url }}" alt="Ad Media" style="width: 100%; height:300px;">
-                                                    {% endif %}
-                                                </center>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row justify-content-between">
-                                            <div class="col-auto">
-                                                <p class="fs-6 text-muted text-uppercase mb-0">
-                                                    Status: {{ ad.status }}
-                                                </p>
-                                                <!-- Comment -->
-                                                <p class="fs-5 fw-bold mb-0">
-                                                    Library ID: {{ ad.library_id }}
-                                                </p>
-                                            </div>
-                                            <div class="col text-end text-truncate">
-                                                <!-- Label -->
-                                                <p class="fs-6 text-muted text-uppercase mb-0">
-                                                    Start Date : {{ ad.strt_date }}
-                                                </p>
-                                                <!-- Comment -->
-                                                <p class="fs-5 fw-bold mb-0">
-                                                    {{ ad.end_date }}
-                                                </p>
-                                            </div>
-                                        </div> <!-- / .row -->
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row justify-content-between">
-                                            <div class="col-auto">
-                                                <p class="fs-6 text-muted text-uppercase mb-0 ad-description">
-                                                    {{ ad.ad_description }}
-                                                </p>
-                                            </div>
-                                        </div> <!-- / .row -->
-                                    </div>
-                                    <!-- Add bar here -->
-                                    <h2 class="text-uppercase text-muted fw-semibold mb-2" style="display: flex; justify-content: center;">
-                                        {{ ad.score }} %
-                                    </h2>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: {{ ad.score }}%;" aria-valuenow="{{ ad.score }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% endfor %}
-                        {% elif request.method == 'POST' %}
-                            <p>No ads found based on the search criteria.</p>
-                        {% endif %}
+
                     </div>
                     
                     
@@ -590,67 +782,166 @@
         );
         });
 
-        $(document).ready(function() {
-            $('select[name="admin-category-dropdown"]').change(function() {
-                var adminCategoryName = $(this).val();
-                if(adminCategoryName) {
-                    $.ajax({
-                        url: '/get_categories/',
-                        data: {
-                            'admin_category_name': adminCategoryName
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-                            $('select[name="category-dropdown"]').empty();
-                            $.each(data, function(index, category) {
-                                $('select[name="category-dropdown"]').append('<option value="' + category.name + '">' + category.name + '</option>');
-                            });
-                        }
-                    });
-                } else {
-                    $('select[name="category-dropdown"]').empty();
-                }
-            });
-        });
+        
         </script>
         <script>
             $(document).ready(function() {
-                // Initialize percentage variable
+                var loader = $('#loader');
+                var percentageDiv = $('#percentage');
                 var percentage = 0;
         
-                // Function to update percentage value
-                function updatePercentage() {
-                    $('#percentage').text(Math.floor(percentage) + "%");
+                function updatePercentage(percentage) {
+                    percentageDiv.text(Math.floor(percentage) + "%");
                 }
         
-                $('form').on('submit', function() {
-                    // Show the loader when the form is submitted
-                    $('#loader').show();
-                    
-                    // Show and update percentage when loader is shown
-                    $('#percentage').show();
-                    updatePercentage();
+                $('#submitBtn').on('click', function() {
+                    $('.container.two_cardq').empty();
+                    $('.container.two_card').empty();
+                    runAjax(1); // Run AJAX with pk_value = 1
                 });
         
-                // Add this if you want to hide the loader when the page has fully loaded
-                $(window).on('load', function() {
-                    $('#loader').hide();
-                    // Hide percentage and reset percentage value when loader is hidden
-                    $('#percentage').hide();
-                    percentage = 0;
-                    updatePercentage();
-                });
-                
+                function runAjax(pk_value) {
+                    var formData = $('#searchForm').serialize();
+                    percentage = 0; // Reset percentage on each click
+                    console.log("error")
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "freeDashboard" %}',
+                        data: formData + '&pk_value=' + pk_value,
+                        beforeSend: function() {
+                            loader.show();
+                            percentageDiv.show();
+                            updatePercentage(0);
+                        },
+                        success: function(response) {
+                            if (response.first_link) {
+                                console.log("found:", response.first_link);
+                                // Create the link HTML
+                                var linkHtml = '<div class="first-link">';
+                                linkHtml += '<a href="' + response.first_link + '">Go To Add Library</a>';
+                                linkHtml += '</div>'; 
+
+                                // Append the link HTML to the container
+                                $('.container.two_cardq').append(linkHtml);
+                            }
+                            if (response.ad_data && response.ad_data.length > 0) {
+                                var adData = response.ad_data;
+                                var html = '';
+                                adData.forEach(function(ad) {
+                                    
+                                    if (ad.media_url1 || ad.media_url) {
+                                        html += '<div class="card border-0 flex-fill w-100 two_divs">';
+                                        html += '<div class="card-body">';
+                                        html += '<div class="row">';
+                                        html += '<div class="col">';
+                                        html += '<h3 class="mb-0">';
+                                        html += '<a href="' + ad.href_link + '">' + ad.fb_page_name + '</a>';
+                                        html += '</h3>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                        html += '<div class="card-footer">';
+                                        html += '<div class="row justify-content-between">';
+                                        html += '<div style="display: flex; justify-content: center;">';
+                                        html += '<center>';
+                                        if (ad.media_url1) {
+                                            html += '<video controls style="width: 100%; height:300px;">';
+                                            html += '<source src="' + ad.media_url1 + '" type="video/mp4" style="width: 100%; height:300px;">';
+                                            html += '</video>';
+                                        }
+                                        if (ad.media_url) {
+                                            html += '<img src="' + ad.media_url + '" alt="Ad Media" style="width: 100%; height:300px;">';
+                                        }
+                                        html += '</center>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                        html += '<div class="card-footer">';
+                                        html += '<div class="row justify-content-between">';
+                                        html += '<div class="col-auto">';
+                                        html += '<p class="fs-6 text-muted text-uppercase mb-0">';
+                                        html += 'Status: ' + ad.active_status2;
+                                        html += '</p>';
+                                        html += '<p class="fs-5 fw-bold mb-0">';
+                                        html += 'Library ID: ' + ad.library_id;
+                                        html += '</p>';
+                                        html += '</div>';
+                                        html += '<div class="col text-end text-truncate">';
+                                        html += '<p class="fs-6 text-muted text-uppercase mb-0">';
+                                        html += 'Start Date : ' + ad.strt_date;
+                                        html += '</p>';
+                                        html += '<p class="fs-5 fw-bold mb-0">';
+                                        html += ad.end_date;
+                                        html += '</p>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                        html += '<div class="card-footer">';
+                                        html += '<div class="row justify-content-between">';
+                                        html += '<div class="col-auto">';
+                                        html += '<p class="fs-6 text-muted text-uppercase mb-0 ad-description">';
+                                        html += truncateDescription(ad.ad_description);
+                                        html += '</p>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                        html += '<h2 class="text-uppercase text-muted fw-semibold mb-2" style="display: flex; justify-content: center;">';
+                                        html += ad.score + ' %';
+                                        html += '</h2>';
+                                        html += '<div class="progress">';
+                                        html += '<div class="progress-bar" role="progressbar" style="width: ' + ad.score + '%;" aria-valuenow="' + ad.score + '" aria-valuemin="0" aria-valuemax="100"></div>';
+                                        html += '</div>';
+                                        html += '</div>';
+                                    }
+                                });
+                                $('.container.two_card').html(html);
+                            } else {
+                                $('.container.two_card').html('<p>No ads found based on the search criteria.</p>');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // Hide loader and percentage
+                            loader.hide();
+                            percentageDiv.hide();
+                            
+                            // Display error message
+                            $('.container.two_card').html('<p>Error occurred: ' + error + '</p>');
+                            window.location.href = '/subscription_limit';
+                        },
+                        complete: function() {
+                            loader.hide();
+                            percentageDiv.hide();
+                            updatePercentage(0); // Reset percentage after completion
+                            // Run the second AJAX call if pk_value is 1
+                            if (pk_value == 1) {
+                                runAjax(2);
+                            }
+                        }
+                    });
+                }
+        
                 // Animation for loader
                 setInterval(function() {
-                    // Increase percentage value when loader is showing
-                    if ($('#loader').is(':visible')) {
-                        percentage += (100 / 25) * 0.02;
-                        updatePercentage();
+                    if (loader.is(':visible')) {
+                        // Increment percentage value until it reaches 100%
+                        if (percentage < 100) {
+                            percentage += 0.06; // Adjust speed as needed
+                            updatePercentage(percentage);
+                        }
                     }
-                }, 20); // Adjust the interval as needed for desired speed
+                }, 20);
+        
+                // Function to truncate description to 14 words
+                function truncateDescription(description) {
+                    var words = description.split(' ');
+                    if (words.length > 14) {
+                        return words.slice(0, 14).join(' ') + '...';
+                    }
+                    return description;
+                }
             });
         </script>
+        
         
         <script>
             // Add JavaScript to dynamically adjust the width of the progress bar

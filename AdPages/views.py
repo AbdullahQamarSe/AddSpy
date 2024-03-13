@@ -199,8 +199,9 @@ def change_password(request):
 
 from collections import defaultdict
 
-@login_required(login_url='login')
 def Dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect(freeDashboard)
     user = request.user
     usersubscribe = request.user.subscription_id
     try:
@@ -302,7 +303,8 @@ def facebook_instagram(request):
             user.counter -= 1
             user.save()
         else:
-            return redirect(subscription_limit)
+            print("error")
+            return JsonResponse({'error': 'Required data missing'}, status=400)
         
         Optimized = request.POST.get('Optimized')
         search = request.POST.get('search')
@@ -404,42 +406,42 @@ def facebook_instagram(request):
             login_button.click()
         except Exception as e:
                 print(e)
-        try:
 
-            input_field_classes = ".x1ejq31n.xd10rxx.x1sy0etr.x17r0tee.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.ximmm8s.x1rg5ohu.x1f6kntn.x3stwaq.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x1a2a7pz.x6ikm8r.x10wlt62.x1y1aw1k.x1pi30zi.xwib8y2.x1swvt13.x1n2onr6.xlyipyv.xh8yej3.xhtitgo"
-            input_field = driver.find_element(By.CSS_SELECTOR, input_field_classes)
-            input_field.send_keys(" ")
+        if pk_value == '1':
+            try:
+
+                input_field_classes = ".x1ejq31n.xd10rxx.x1sy0etr.x17r0tee.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.ximmm8s.x1rg5ohu.x1f6kntn.x3stwaq.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x1a2a7pz.x6ikm8r.x10wlt62.x1y1aw1k.x1pi30zi.xwib8y2.x1swvt13.x1n2onr6.xlyipyv.xh8yej3.xhtitgo"
+                input_field = driver.find_element(By.CSS_SELECTOR, input_field_classes)
+                input_field.send_keys(" ")
 
 
-            # Wait for 4 seconds
-            time.sleep(5)
+                # Wait for 4 seconds
+                time.sleep(5)
 
-            # Find the button and click
-            button_classes = ".x132q4wb "
-            button = driver.find_element(By.CSS_SELECTOR, button_classes)
+                # Find the button and click
+                button_classes = ".x132q4wb "
+                button = driver.find_element(By.CSS_SELECTOR, button_classes)
 
-            text = button.find_element(By.CSS_SELECTOR, ".x8t9es0 ")
-            linkname = text.text
-            linkname_without_spaces = linkname.replace(" ", "")
-            search = search.replace(" ", "")
+                text = button.find_element(By.CSS_SELECTOR, ".x8t9es0 ")
+                linkname = text.text
+                linkname_without_spaces = linkname.replace(" ", "")
+                search = search.replace(" ", "")
 
-            print("Pokemon",linkname_without_spaces,search)
-            print(linkname_without_spaces.lower(),search.lower())
-            if linkname_without_spaces.lower() == search.lower():
-                print("bothcorrect")
-                button.click()
-                time.sleep(2)
-                driver.current_url
-                first_link = driver.current_url
+                print("Pokemon",linkname_without_spaces,search)
+                print(linkname_without_spaces.lower(),search.lower())
+                if linkname_without_spaces.lower() == search.lower():
+                    print("bothcorrect")
+                    button.click()
+                    time.sleep(2)
+                    driver.current_url
+                    first_link = driver.current_url
+                
+                print("not found")
+            except Exception as e :
+                print(e)
+            driver.get(final_url)
             
-            print("not found")
-        except Exception as e :
-            print(e)
-
-            
-        
-        driver.get(final_url)
-        time.sleep(7)
+        time.sleep(2)
         if pk_value == '1':
             driver.execute_script("window.scrollBy(0, 500);")
             time.sleep(1)
@@ -789,22 +791,23 @@ def subscription_form(request):
         card_details = []
         invoices_data = []
         stripe.api_key = 'sk_test_51M1RZSEQYK3RMvApDzbiHMTOBZUypqMeAtpoyqhLAbmvCDMP71ulYUPGR68CvZpTM0CNGcPT9kJhJPY3C7YFtReI00Tw4Tc6ao'
-        invoices = stripe.Invoice.list(customer=request.user.customer_id)
-        for invoice in invoices:
-            invoice_data = {
-                "id": invoice.id,
-                "amount_due": invoice.amount_due / 100,
-                "currency": invoice.currency,
-                "due_date": invoice.due_date,
-                "status": invoice.status,
-                "period_start": invoice.period_start,
-                "period_end": invoice.period_end,
-            }
-            invoices_data.append(invoice_data)
-        customer = stripe.Customer.retrieve(request.user.customer_id)
-        print(customer)
-        default_payment_method_id = customer.default_source
-        print(default_payment_method_id)
+        if request.user.customer_id:
+            invoices = stripe.Invoice.list(customer=request.user.customer_id)
+            for invoice in invoices:
+                invoice_data = {
+                    "id": invoice.id,
+                    "amount_due": invoice.amount_due / 100,
+                    "currency": invoice.currency,
+                    "due_date": invoice.due_date,
+                    "status": invoice.status,
+                    "period_start": invoice.period_start,
+                    "period_end": invoice.period_end,
+                }
+                invoices_data.append(invoice_data)
+            customer = stripe.Customer.retrieve(request.user.customer_id)
+            print(customer)
+            default_payment_method_id = customer.default_source
+            print(default_payment_method_id)
         
 
         if default_payment_method_id is not None:
@@ -856,7 +859,7 @@ def subscription_form(request):
                 subscription = stripe.Subscription.create(
                     customer=customer.id,
                     items=[
-                        {'price': 'price_1OsDRUEQYK3RMvApbbNhzBCt'},
+                        {'price': 'price_1OsDT2EQYK3RMvAp3P8tdDT7'},
                     ],
                 )
 
@@ -987,7 +990,6 @@ def freeDashboard(request):
     data = []
     first_link=""
     session_limit_key = 'subscription_limit'
-
     if 'counter' not in request.session:
         request.session['counter'] = 2
 
@@ -998,12 +1000,44 @@ def freeDashboard(request):
             request.session['counter'] -= 1
             request.session.modified = True
         else:
-            return redirect(subscription_limit)
+            return JsonResponse({'error': 'Required data missing'}, status=400)
         
         Optimized = request.POST.get('Optimized')
         search = request.POST.get('search')
         media_type = request.POST.get('media_type')
         country = request.POST.get('admin-category-dropdown')
+        pk_value = request.POST.get('pk_value')
+
+        print(f"Optimized: {Optimized}")
+        print(f"Search: {search}")
+        print(f"Media Type: {media_type}")
+        print(f"Country: {country}")
+
+        import datetime
+
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+
+        if Optimized == '90':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(days=90)).strftime("%Y-%m-%d")  # 2 months previous
+            end_date = (datetime.datetime.now() - datetime.timedelta(days=60)).strftime("%Y-%m-%d")
+        elif Optimized == '75':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(days=60)).strftime("%Y-%m-%d")  # 6 weeks previous
+            end_date = (datetime.datetime.now() - datetime.timedelta(weeks=6)).strftime("%Y-%m-%d")
+        elif Optimized == '65':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(weeks=6)).strftime("%Y-%m-%d")
+            end_date = (datetime.datetime.now() - datetime.timedelta(weeks=4)).strftime("%Y-%m-%d")
+        elif Optimized == '40':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(weeks=4)).strftime("%Y-%m-%d")  # 3 weeks previous
+            end_date = (datetime.datetime.now() - datetime.timedelta(weeks=3)).strftime("%Y-%m-%d")
+        elif Optimized == '25':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(weeks=3)).strftime("%Y-%m-%d")  # 2 weeks previous
+            end_date = (datetime.datetime.now() - datetime.timedelta(weeks=2)).strftime("%Y-%m-%d")
+        elif Optimized == '0':
+            start_date_min = (datetime.datetime.now() - datetime.timedelta(weeks=2)).strftime("%Y-%m-%d")  # 1 day previous
+            end_date = current_date
+        else:
+            start_date_min = current_date
+
         try:
             country = pycountry.countries.lookup(country).alpha_2
             print("Country Code:", country)
@@ -1037,22 +1071,21 @@ def freeDashboard(request):
         glass = search
 
         if search == "":
-            search = "."
+            search = ad_type
+        
+        if ad_type != "":
+            search = ad_type
 
-        print(search)
-        secound_search = search.replace(" ", "")
-        facebook_page = f"https://www.facebook.com/{secound_search}"
-        print(facebook_page)
-       
         chrome_options = ChromeOptions()
         chrome_options.add_argument("--disable-notifications")
         driver = webdriver.Chrome(options=chrome_options)
 
         publisher_platforms = request.POST.get('publisher_platforms')
         wait = WebDriverWait(driver, 10)  # Adjust the timeout as needed
-        base_url = "https://www.facebook.com/ads/library/?active_status={}&ad_type={}&country={}&q={}&publisher_platforms[0]={}&sort_data[direction]=desc&sort_data[mode]=relevancy_monthly_grouped&search_type=keyword_unordered&media_type={}&content_languages[0]=en"
+        base_url = "https://www.facebook.com/ads/library/?active_status={}&ad_type={}&country={}&q={}&publisher_platforms[0]={}&sort_data[direction]=desc&sort_data[mode]=relevancy_monthly_grouped&start_date[min]={}&start_date[max]={}&search_type=keyword_unordered&media_type={}&content_languages[0]=en"
 
-        final_url = base_url.format(active_status1, ad_type, country, search, publisher_platforms, media_type)
+        
+        final_url = base_url.format(active_status1, "all", country, search, publisher_platforms, start_date_min, end_date, media_type)
 
         driver.get(final_url)
 
@@ -1069,50 +1102,171 @@ def freeDashboard(request):
             login_button.click()
         except Exception as e:
                 print(e)
-        try:
 
-            input_field_classes = ".x1ejq31n.xd10rxx.x1sy0etr.x17r0tee.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.ximmm8s.x1rg5ohu.x1f6kntn.x3stwaq.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x1a2a7pz.x6ikm8r.x10wlt62.x1y1aw1k.x1pi30zi.xwib8y2.x1swvt13.x1n2onr6.xlyipyv.xh8yej3.xhtitgo"
-            input_field = driver.find_element(By.CSS_SELECTOR, input_field_classes)
-            input_field.send_keys(" ")
+        if pk_value == '1':
+            try:
+
+                input_field_classes = ".x1ejq31n.xd10rxx.x1sy0etr.x17r0tee.xhk9q7s.x1otrzb0.x1i1ezom.x1o6z2jb.ximmm8s.x1rg5ohu.x1f6kntn.x3stwaq.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x1a2a7pz.x6ikm8r.x10wlt62.x1y1aw1k.x1pi30zi.xwib8y2.x1swvt13.x1n2onr6.xlyipyv.xh8yej3.xhtitgo"
+                input_field = driver.find_element(By.CSS_SELECTOR, input_field_classes)
+                input_field.send_keys(" ")
 
 
-            # Wait for 4 seconds
-            time.sleep(5)
+                # Wait for 4 seconds
+                time.sleep(5)
 
-            # Find the button and click
-            button_classes = ".x132q4wb "
-            button = driver.find_element(By.CSS_SELECTOR, button_classes)
+                # Find the button and click
+                button_classes = ".x132q4wb "
+                button = driver.find_element(By.CSS_SELECTOR, button_classes)
 
-            text = button.find_element(By.CSS_SELECTOR, ".x8t9es0 ")
-            linkname = text.text
-            linkname_without_spaces = linkname.replace(" ", "")
-            search = search.replace(" ", "")
+                text = button.find_element(By.CSS_SELECTOR, ".x8t9es0 ")
+                linkname = text.text
+                linkname_without_spaces = linkname.replace(" ", "")
+                search = search.replace(" ", "")
 
-            print("Pokemon",linkname_without_spaces,search)
-            print(linkname_without_spaces.lower(),search.lower())
-            if linkname_without_spaces.lower() == search.lower():
-                print("bothcorrect")
-                button.click()
-                time.sleep(2)
-                driver.current_url
-                first_link = driver.current_url
+                print("Pokemon",linkname_without_spaces,search)
+                print(linkname_without_spaces.lower(),search.lower())
+                if linkname_without_spaces.lower() == search.lower():
+                    print("bothcorrect")
+                    button.click()
+                    time.sleep(2)
+                    driver.current_url
+                    first_link = driver.current_url
+                
+                print("not found")
+            except Exception as e :
+                print(e)
+            driver.get(final_url)
             
-            print("not found")
-        except Exception as e :
-            print(e)
+        time.sleep(2)
+        if pk_value == '1':
+            driver.execute_script("window.scrollBy(0, 500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(500, 1000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(1000, 1500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(1500, 2500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(2500, 3500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(3500, 4500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(4500, 5500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(5500, 6500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(6500, 7500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(7500, 8500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(8500, 9500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(9500, 10500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(10500, 11500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(11500, 12500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(12500, 13500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(13500, 14500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(14500, 15500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(15500, 16500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(16500, 17500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(17500, 18500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(18500, 19500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(19500, 20000);")
+        elif pk_value == '2':
+            driver.execute_script("window.scrollBy(0, 500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(500, 1000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(1000, 1500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(1500, 2500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(2500, 3500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(3500, 4500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(4500, 5500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(5500, 6500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(6500, 7500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(7500, 8500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(8500, 9500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(9500, 10500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(10500, 11500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(11500, 12500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(12500, 13500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(13500, 14500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(14500, 15500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(15500, 16500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(16500, 17500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(17500, 18500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(18500, 19500);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(19500, 20000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(20000, 21000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(21000, 22000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(22000, 23000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(23000, 24000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(24000, 25000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(25000, 26000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(26000, 27000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(27000, 28000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(28000, 29000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(29000, 30000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(30000, 31000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(31000, 32000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(32000, 33000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(33000, 34000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(34000, 35000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(35000, 36000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(36000, 37000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(37000, 38000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(38000, 39000);")
+            time.sleep(1)
+            driver.execute_script("window.scrollBy(39000, 40000);")
 
-            
-        
-        driver.get(final_url)
-        time.sleep(7)
-
-        driver.execute_script("window.scrollBy(0, 500);")
-        time.sleep(2)
-        driver.execute_script("window.scrollBy(500, 1000);")
-        time.sleep(2)
-        driver.execute_script("window.scrollBy(1000, 1500);")
-        time.sleep(2)
-        driver.execute_script("window.scrollBy(1500, 2500);")
         time.sleep(2)
         source = driver.page_source
         soup = BeautifulSoup(source, 'html.parser')
@@ -1187,27 +1341,14 @@ def freeDashboard(request):
                 if months > 0:
                     duration_str += f"{months} {'month' if months == 1 else 'months'} "
 
-                # Determine the score based on the duration
-                score = 0
-                if weeks < 1:
-                    score = 0
-                elif weeks <= 2:
-                    score = 25
-                elif weeks >= 3:
-                    score = 40
-                elif months >= 1:
-                    score = 65
-                elif weeks >= 6:
-                    score = 75
-                elif months >= 2:
-                    score = 90
+                
 
                 # Update ad_data with duration string and score
                 ad_data["duration"] = duration_str.strip()  # Strip leading/trailing whitespace
-                ad_data["score"] = score
+                ad_data["score"] = Optimized
+                print(Optimized)
+                print(ad_data["score"],"ad_data['score']")
 
-                print(strt_date,end_date)
-                print(score)
 
                 image = page_name[i].find('img', class_='x1ll5gia x19kjcj4 xh8yej3')
                 video = page_name[i].find('video', class_='x1lliihq x5yr21d xh8yej3')
@@ -1216,19 +1357,20 @@ def freeDashboard(request):
                 elif video:
                     ad_data["media_url1"] = video['src']
                 print("Optimized:", Optimized, type(Optimized))
-                print("score:", score, type(score))
-                Optimized_int = int(Optimized)
 
-                if Optimized_int == score:
-                    if not any(ad["href_link"] == ad_data["href_link"] for ad in data):
-                        data.append(ad_data)
+                if not any(ad["href_link"] == ad_data["href_link"] for ad in data):
+                    data.append(ad_data)
 
             except Exception as e:
                 
                 print('\n', e)
-  
+                 
+        data_dict = {
+            'ad_data': data,
+            'first_link': first_link,
+            'user': str(request.user)
+        }
+        return JsonResponse(data_dict)
 
-    admin_categories = AdminCategory.objects.all()
-
-    return render(request, 'FacebookFree.html', {'admin_categories': admin_categories,'ad_data': data, 'first_link': first_link} )
+    return render(request, 'FacebookFree.html', {'ad_data': data, 'first_link': first_link} )
 

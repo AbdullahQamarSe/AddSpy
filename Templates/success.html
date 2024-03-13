@@ -356,7 +356,8 @@
                     <div class="container recyclebin" style="background-color: rgba(0, 186, 199, .2); border-radius: 16px;">
                         <img src="{% static 'assets/images/illustrations/upgrade-illustration.svg' %}" alt="..." class="img-fluid mb-4" width="160" height="160">
                         <h6 style="text-align: center;">Upgrade to explore<br> <span class="emphasize">premium</span> features</h6>
-                        <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a>
+                        <a class="btn w-100 btn-sm btn-primary" href="{% url 'subscription_limit' %}">Buy Subscription</a><br>
+<br>
                     </div>
                     {% endif %}
 
@@ -609,7 +610,7 @@
                     var csrftoken = getCookie('csrftoken');
     
                     // Send request to backend to cancel subscription
-                    fetch('http://127.0.0.1:8000/cancel-subscription/', {
+                    fetch('http://54.169.133.221/cancel-subscription/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -686,7 +687,7 @@
                     hideLoader(); // Hide loader on error
                 } else {
                     var csrfToken = getCookie('csrftoken');
-                    fetch('http://127.0.0.1:8000/subscribe/', {
+                    fetch('http://54.169.133.221/subscribe/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
